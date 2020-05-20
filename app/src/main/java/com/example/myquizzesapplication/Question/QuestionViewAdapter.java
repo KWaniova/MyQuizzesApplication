@@ -78,7 +78,7 @@ public class QuestionViewAdapter extends RecyclerView.Adapter<QuestionViewAdapte
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                questions.remove(itemToDelete);
+                                dbHelper.removeQuestion(quizPosition,position);
                                 System.out.println("questions size: " + questions.size());
                                 notifyDataSetChanged();
                             }

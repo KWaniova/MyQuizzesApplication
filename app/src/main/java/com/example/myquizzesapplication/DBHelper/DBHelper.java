@@ -160,6 +160,22 @@ public class DBHelper extends SQLiteOpenHelper {
 
         c.close();
     }
+
+    public void showQuestionsInDatabase(){
+        Cursor c = db.rawQuery("SELECT * FROM Questions", null);
+        int rightAnswer = c.getColumnIndex("RightAnswer");
+        int contentQuestion = c.getColumnIndex("QuestionContent");
+        c.moveToFirst();
+        if(c!=null){
+            while(true){
+                System.out.println("QuestionContent " + c.getString(contentQuestion) + " , " + "RightAnswer " + c.getString(rightAnswer));
+                //Log.i("Name: ", c.getString(contentIndex));
+                if(c.moveToNext() == false) break;
+            }
+        }
+
+        c.close();
+    }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
@@ -176,8 +192,11 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean addQuestion(Question question,int QuizPositionInQuizzes){
+    public boolean addQuestion(String questionContent,boolean RightAnswer,int QuizPositionInQuizzes){
         try {
+            System.out.println("QuizPositionInQuizzes " +QuizPositionInQuizzes);
+            int QuizID = quizzes.get(QuizPositionInQuizzes).getIdQuiz();
+            Question question = new Question(QuizID,questionContent,RightAnswer);
             String rightAnswer;
             if(question.isRightAnswer() == true){
                 rightAnswer = "TRUE";
@@ -217,6 +236,34 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean editQuestion(int QuizPositionInQuizzes, int QuestionPosition, String newQuestionContent,boolean newRightAnswer){
+        String oldQuestionContent = quizzes.get(QuizPositionInQuizzes).getQuestions().get(QuestionPosition).getContent();
+        boolean oldAnswer = quizzes.get(QuizPositionInQuizzes).getQuestions().get(QuestionPosition).isRightAnswer();
+        System.out.println("oldAnswer " +oldAnswer + ", newAnswer " + newRightAnswer );
+        ContentValues values = new ContentValues();
+        if(newRightAnswer != oldAnswer){
+            System.out.println(newRightAnswer);
+            if(newRightAnswer == true){
+                values.put("RightAnswer","TRUE");
+            }else{
+                values.put("RightAnswer","FALSE");
+            }
+            String where = "QuestionContent=?";
+            String[] whereArgs = new String[] {oldQuestionContent};
+            db.update("Questions",values,where,whereArgs);
+            quizzes.get(QuizPositionInQuizzes).getQuestions().get(QuestionPosition).setRightAnswer(newRightAnswer);
+        }
+        System.out.println("newQuestionContent= " + newQuestionContent + " , oldQuestionContent = " + oldQuestionContent );
+        if(!newQuestionContent.equals(oldQuestionContent)){
+            values.put("QuestionContent",newQuestionContent);
+            String where = "QuestionContent=?";
+            String[] whereArgs = new String[] {oldQuestionContent};
+            db.update("Questions",values,where,whereArgs);
+            quizzes.get(QuizPositionInQuizzes).getQuestions().get(QuestionPosition).setContent(newQuestionContent);
+        }
+        showQuestionsInDatabase();
+        return true;
+    }
     public boolean addQuiz(String name){
         try{
             ContentValues values = new ContentValues();

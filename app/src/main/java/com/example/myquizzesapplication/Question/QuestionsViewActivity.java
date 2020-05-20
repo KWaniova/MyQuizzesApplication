@@ -17,6 +17,7 @@ import com.example.myquizzesapplication.DBHelper.DBHelper;
 import com.example.myquizzesapplication.QuizFolder.QuizMenuActivity;
 import com.example.myquizzesapplication.QuizFolder.TypeQuizNameActivity;
 import com.example.myquizzesapplication.R;
+import com.example.myquizzesapplication.Statistic.StatisticViewActivity;
 
 import java.util.List;
 
@@ -41,7 +42,10 @@ public class QuestionsViewActivity extends AppCompatActivity {
 
         if(item.getItemId() == R.id.add_question_questionView){
             //add question
-
+            Intent intent = new Intent(getApplicationContext(), AddQuestionActivity.class);
+            intent.putExtra("quizPosition",quizPosition);
+            System.out.println("QuestionViewActivity quizPosition: " + quizPosition);
+            startActivity(intent);
             return true;
         }
         return false;
