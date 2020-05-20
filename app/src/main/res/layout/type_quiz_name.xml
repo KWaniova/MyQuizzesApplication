@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".QuizFolder.TypeQuizNameActivity"
+    android:orientation="vertical"
+    android:background="@drawable/bg"
+    android:weightSum="10">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2.5">
+
+        <TextView
+            android:id="@+id/quiz_menu_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New quiz"
+            android:textColor="@android:color/white"
+            android:textSize="34dp"
+            android:layout_centerInParent="true"
+            />
+
+    </RelativeLayout>
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7.5"
+        android:columnCount="1"
+        android:rowCount="2"
+        android:alignmentMode="alignMargins"
+        android:padding="30dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Quiz name"
+            android:textSize="20dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="24dp"
+            tools:layout_editor_absoluteY="163dp" />
+
+        <EditText
+            android:id="@+id/enter_quiz_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_weight="2"
+            android:hint="Enter quiz name"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="20dp"
+            tools:layout_editor_absoluteY="251dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            >
+
+            <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="CANCEL"
+                android:textSize="20dp"
+                tools:layout_editor_absoluteX="20dp"
+                tools:layout_editor_absoluteY="338dp"
+                tools:ignore="MissingConstraints" />
+
+            <Button
+                android:id="@+id/add_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="Add"
+                android:textSize="20dp"
+                android:enabled="false"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="241dp"
+                tools:layout_editor_absoluteY="338dp" />
+
+
+        </LinearLayout>
+
+    </GridLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Game.QuestionGameView"
+    android:orientation="vertical"
+    android:weightSum="10">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#009688">
+
+        <TextView
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#009688"
+            android:text="Back"
+            android:textSize="30dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/game_relative_layout">
+
+            <TextView
+                android:id="@+id/questionX_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#009688"
+                android:padding="20dp"
+                android:text="Question X"
+                android:textColor="#150101"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/points_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="false"
+                android:background="#009688"
+                android:padding="20dp"
+                android:shadowColor="#F5F8F7"
+                android:text="0/0"
+                android:textColor="#130101"
+                android:textColorHint="#0C0303"
+                android:textSize="30dp" />
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5">
+
+        <TextView
+            android:id="@+id/question_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Question content"
+            android:textSize="20dp"
+            android:padding="30dp"
+            />
+
+    </RelativeLayout>
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:columnCount="2"
+        android:rowCount="1"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/true_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="TRUE"
+            android:padding="15dp"
+            android:textSize="30dp"
+            android:layout_columnWeight="1"/>
+        <Button
+            android:id="@+id/false_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="FALSE"
+            android:padding="15dp"
+            android:textSize="30dp"
+            android:layout_columnWeight="1"/>
+    </GridLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.quizesapplication.QuizFolder.QuizMenuActivity">
+    <item
+        android:id="@+id/edit_quiz_name_menu_item"
+        android:orderInCategory="100"
+        android:title="Edite quiz name"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/delete_quiz_menu_item"
+        android:orderInCategory="100"
+        android:title="Delete quiz"
+        app:showAsAction="never" />
+</menu>
