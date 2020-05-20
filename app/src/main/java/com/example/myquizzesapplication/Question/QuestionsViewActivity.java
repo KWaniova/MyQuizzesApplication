@@ -1,28 +1,23 @@
-package com.example.quizesapplication.Question;
+package com.example.myquizzesapplication.Question;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
-import com.example.quizesapplication.DBHelper.DBHelper;
-import com.example.quizesapplication.MainActivity;
-import com.example.quizesapplication.MainPageRecyclerViewAdapter;
-import com.example.quizesapplication.QuizFolder.QuizMenuActivity;
-import com.example.quizesapplication.R;
+import com.example.myquizzesapplication.DBHelper.DBHelper;
+import com.example.myquizzesapplication.QuizFolder.QuizMenuActivity;
+import com.example.myquizzesapplication.QuizFolder.TypeQuizNameActivity;
+import com.example.myquizzesapplication.R;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class QuestionsViewActivity extends AppCompatActivity {
@@ -33,6 +28,24 @@ public class QuestionsViewActivity extends AppCompatActivity {
     DBHelper dbHelper = DBHelper.getInstance(this);
     int quizPosition;
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.question_view_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        if(item.getItemId() == R.id.add_question_questionView){
+            //add question
+
+            return true;
+        }
+        return false;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

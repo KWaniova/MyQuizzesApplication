@@ -1,10 +1,10 @@
-package com.example.quizesapplication.Statistic;
+package com.example.myquizzesapplication.Statistic;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.example.quizesapplication.R;
+import com.example.myquizzesapplication.R;
 
 public class StatisticViewActivity extends AppCompatActivity {
 

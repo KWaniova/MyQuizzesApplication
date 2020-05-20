@@ -1,4 +1,4 @@
-package com.example.quizesapplication.QuizFolder;
+package com.example.myquizzesapplication.QuizFolder;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,12 +15,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.example.quizesapplication.DBHelper.DBHelper;
-import com.example.quizesapplication.Game.GameStartActivity;
-import com.example.quizesapplication.MainActivity;
-import com.example.quizesapplication.Question.QuestionsViewActivity;
-import com.example.quizesapplication.R;
-import com.example.quizesapplication.Statistic.StatisticViewActivity;
+import com.example.myquizzesapplication.DBHelper.DBHelper;
+import com.example.myquizzesapplication.Game.GameStartActivity;
+import com.example.myquizzesapplication.Question.QuestionsViewActivity;
+import com.example.myquizzesapplication.R;
+import com.example.myquizzesapplication.Statistic.StatisticViewActivity;
 
 public class QuizMenuActivity extends AppCompatActivity {
 

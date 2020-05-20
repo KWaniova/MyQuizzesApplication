@@ -1,10 +1,10 @@
-package com.example.quizesapplication.Game;
+package com.example.myquizzesapplication.Game;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.example.quizesapplication.R;
+import com.example.myquizzesapplication.R;
 
 public class GameStartActivity extends AppCompatActivity {
 

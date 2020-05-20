@@ -1,4 +1,4 @@
-package com.example.quizesapplication.QuizFolder;
+package com.example.myquizzesapplication.QuizFolder;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.quizesapplication.R;
+import com.example.myquizzesapplication.R;
 
 public class TypeQuizNameActivity extends AppCompatActivity {
 

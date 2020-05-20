@@ -1,4 +1,4 @@
-package com.example.quizesapplication.Question;
+package com.example.myquizzesapplication.Question;
 
 
 public class Question{

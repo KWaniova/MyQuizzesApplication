@@ -1,4 +1,4 @@
-package com.example.quizesapplication.Question;
+package com.example.myquizzesapplication.Question;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,8 +11,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.quizesapplication.DBHelper.DBHelper;
-import com.example.quizesapplication.R;
+import com.example.myquizzesapplication.DBHelper.DBHelper;
+import com.example.myquizzesapplication.R;
 
 public class QuestionEditorActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.quizesapplication.Question;
+package com.example.myquizzesapplication;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,66 +10,59 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.quizesapplication.DBHelper.DBHelper;
-import com.example.quizesapplication.R;
+import com.example.myquizzesapplication.DBHelper.DBHelper;
+import com.example.myquizzesapplication.QuizFolder.Quiz;
+import com.example.myquizzesapplication.QuizFolder.QuizMenuActivity;
 
 import java.util.List;
 
-import static androidx.core.app.ActivityCompat.startActivityForResult;
-
-public class QuestionViewAdapter extends RecyclerView.Adapter<QuestionViewAdapter.MyViewHolder> {
+public class MainPageRecyclerViewAdapter extends RecyclerView.Adapter<MainPageRecyclerViewAdapter.MyViewHolder> {
 
     private Context context;
-    List<Question> questions;
-    private DBHelper dbHelper;
-    private int quizPosition;
+    DBHelper dbHelper;
 
 
-    public QuestionViewAdapter(Context aContext,int quizPosition) {
+    public MainPageRecyclerViewAdapter(Context aContext, List<Quiz> aData) {
         this.context = aContext;
-        this.quizPosition = quizPosition;
         dbHelper = DBHelper.getInstance(context);
-        this.questions = dbHelper.getQuizzes().get(quizPosition).getQuestions();
     }
 
     @NonNull
     @Override
-    public QuestionViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view;
         LayoutInflater inflater = LayoutInflater.from(context);
-        view = inflater.inflate(R.layout.card_view_item_question_view,parent,false);
-        return new QuestionViewAdapter.MyViewHolder(view);
+        view = inflater.inflate(R.layout.card_view_item_quiz,parent,false);
+        return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final QuestionViewAdapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(MyViewHolder holder,final int position) {
 
-        holder.question_content.setText(questions.get(position).getContent());
-        holder.question_right_answer.setText(Boolean.toString(questions.get(position).isRightAnswer()));
+        holder.quiz_name_textView.setText(dbHelper.getQuizzes().get(position).getName());
+        holder.quantity_of_questions_textView.setText(Integer.toString(dbHelper.getQuizzes().get(position).getNumberOfQuestions()));
 
         //Set on item click listener
         holder.card_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, QuestionEditorActivity.class);
+                Intent intent = new Intent(context, QuizMenuActivity.class);
                 //passing data to the quiz menu activity
-                intent.putExtra("questionPosition",position);
-                intent.putExtra("quizPosition",quizPosition);
+                intent.putExtra("QuizPositionInQuizzes",position);
                 //start the activity
                 try{
                     context.startActivity(intent);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
-                //Log.i("Come back:", Integer.toString(position));
             }
         });
+
+
         holder.card_view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -77,12 +70,12 @@ public class QuestionViewAdapter extends RecyclerView.Adapter<QuestionViewAdapte
                 new AlertDialog.Builder(context)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setTitle("Are you sure?")
-                        .setMessage("Do you want to delete this question?")
+                        .setMessage("Do you want to delete this quiz?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                questions.remove(itemToDelete);
-                                System.out.println("questions size: " + questions.size());
+                                System.out.println("quizzes size: " + dbHelper.getQuizzes().size());
+                                dbHelper.removeQuiz(itemToDelete);
                                 notifyDataSetChanged();
                             }
                         })
@@ -91,29 +84,25 @@ public class QuestionViewAdapter extends RecyclerView.Adapter<QuestionViewAdapte
                 return true;
             }
         });
-
     }
-
-
 
     @Override
     public int getItemCount() {
-        return questions.size();
+        return dbHelper.getQuizzes().size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         CardView card_view;
-        TextView question_content;
-        TextView question_right_answer;
+        TextView quiz_name_textView;
+        TextView quantity_of_questions_textView;
 
         public MyViewHolder(@NonNull View itemView) {
 
             super(itemView);
-            question_right_answer = itemView.findViewById(R.id.question_answer_card_view);
-            question_content = itemView.findViewById(R.id.question_content_card_view);
-            card_view = itemView.findViewById(R.id.quiz_questionView_card_view_id);
+            quiz_name_textView = itemView.findViewById(R.id.quiz_name_id);
+            quantity_of_questions_textView = itemView.findViewById(R.id.quantity_of_questions_quiz);
+            card_view = itemView.findViewById(R.id.quiz_mainPage_card_view_id);
         }
     }
 }
-

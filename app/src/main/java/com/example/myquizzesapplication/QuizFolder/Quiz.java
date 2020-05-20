@@ -1,8 +1,7 @@
-package com.example.quizesapplication.QuizFolder;
+package com.example.myquizzesapplication.QuizFolder;
 
-import com.example.quizesapplication.Question.Question;
+import com.example.myquizzesapplication.Question.Question;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

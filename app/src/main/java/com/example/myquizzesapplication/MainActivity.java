@@ -1,11 +1,11 @@
-package com.example.quizesapplication;
+package com.example.myquizzesapplication;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
-import com.example.quizesapplication.DBHelper.DBHelper;
-import com.example.quizesapplication.QuizFolder.TypeQuizNameActivity;
+import com.example.myquizzesapplication.DBHelper.DBHelper;
+import com.example.myquizzesapplication.QuizFolder.TypeQuizNameActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
