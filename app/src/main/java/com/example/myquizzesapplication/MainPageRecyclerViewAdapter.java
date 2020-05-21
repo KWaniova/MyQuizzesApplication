@@ -84,6 +84,7 @@ public class MainPageRecyclerViewAdapter extends RecyclerView.Adapter<MainPageRe
                 return true;
             }
         });
+
     }
 
     @Override
@@ -103,6 +104,7 @@ public class MainPageRecyclerViewAdapter extends RecyclerView.Adapter<MainPageRe
             quiz_name_textView = itemView.findViewById(R.id.quiz_name_id);
             quantity_of_questions_textView = itemView.findViewById(R.id.quantity_of_questions_quiz);
             card_view = itemView.findViewById(R.id.quiz_mainPage_card_view_id);
+
         }
     }
 }
