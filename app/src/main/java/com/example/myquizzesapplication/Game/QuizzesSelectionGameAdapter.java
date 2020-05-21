@@ -81,8 +81,8 @@ public class QuizzesSelectionGameAdapter extends RecyclerView.Adapter<com.exampl
                     selectedItemsList.put(position,!selectedItemsList.get(position));
                     quantityOfSelectedItems--;
                 }
-                if(quantityOfSelectedItems>0) OKButton.setEnabled(false);
-                else OKButton.setEnabled(true);
+                if(quantityOfSelectedItems>0) OKButton.setEnabled(true);
+                else OKButton.setEnabled(false);
                 selectedTextView.setText(Integer.toString(quantityOfSelectedItems));
                 holder.quizName.setBackgroundColor(selectedItemsList.get(position) ? Color.CYAN : Color.WHITE);
             }

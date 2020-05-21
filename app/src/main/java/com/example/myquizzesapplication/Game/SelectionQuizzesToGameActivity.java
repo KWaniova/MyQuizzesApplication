@@ -48,6 +48,7 @@ public class SelectionQuizzesToGameActivity extends AppCompatActivity {
                 Intent intent = new Intent(SelectionQuizzesToGameActivity.this,GameStartActivity.class);
                 intent.putExtra("SelectedItemsList",selectedItems);
                 startActivity(intent);
+                finish();
             }
         });
         CANCELButton.setOnClickListener(new View.OnClickListener() {
