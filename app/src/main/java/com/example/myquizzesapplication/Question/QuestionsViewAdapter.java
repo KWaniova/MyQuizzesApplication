@@ -18,7 +18,7 @@ import com.example.myquizzesapplication.R;
 
 import java.util.List;
 
-public class QuestionViewAdapter extends RecyclerView.Adapter<QuestionViewAdapter.MyViewHolder> {
+public class QuestionsViewAdapter extends RecyclerView.Adapter<QuestionsViewAdapter.MyViewHolder> {
 
     private Context context;
     List<Question> questions;
@@ -26,7 +26,7 @@ public class QuestionViewAdapter extends RecyclerView.Adapter<QuestionViewAdapte
     private int quizPosition;
 
 
-    public QuestionViewAdapter(Context aContext,int quizPosition) {
+    public QuestionsViewAdapter(Context aContext, int quizPosition) {
         this.context = aContext;
         this.quizPosition = quizPosition;
         dbHelper = DBHelper.getInstance(context);
@@ -35,16 +35,16 @@ public class QuestionViewAdapter extends RecyclerView.Adapter<QuestionViewAdapte
 
     @NonNull
     @Override
-    public QuestionViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public QuestionsViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view;
         LayoutInflater inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.card_view_item_question_view,parent,false);
-        return new QuestionViewAdapter.MyViewHolder(view);
+        return new QuestionsViewAdapter.MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final QuestionViewAdapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final QuestionsViewAdapter.MyViewHolder holder, final int position) {
 
         holder.question_content.setText(questions.get(position).getContent());
         holder.question_right_answer.setText(Boolean.toString(questions.get(position).isRightAnswer()));

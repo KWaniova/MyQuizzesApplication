@@ -10,8 +10,22 @@
     android:weightSum="8"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5">
+
+        <Button
+            android:background="#009688"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="START GAME"
+            android:textSize="30dp"
+            android:id="@+id/start_game_button"/>
+
+    </LinearLayout>
     <ScrollView
-        android:layout_weight="7"
+        android:layout_weight="6.5"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
@@ -23,14 +37,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </ScrollView>
-
-    <Button
-        android:layout_weight="1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="START GAME"
-        android:textSize="40dp"
-        android:id="@+id/start_game_button"/>
 
 
 

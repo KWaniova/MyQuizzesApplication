@@ -44,10 +44,13 @@ public class GameStartActivity extends AppCompatActivity {
         STARTButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(GameStartActivity.this,GameActivity.class);
+                intent.putExtra("SelectedItemsList",quizzesSelected);
+                intent.putExtra("numberOfQuestions",actualNumberOfQuestions);
+                startActivity(intent);
+                finish();
             }
         });
-
     }
 
     @Override
@@ -80,7 +83,7 @@ public class GameStartActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!enterNumberOfQuestions.getText().toString().equals("")){
                     actualNumberOfQuestions = Integer.parseInt(enterNumberOfQuestions.getText().toString());
-                    if(actualNumberOfQuestions>numberOfQuestions){
+                    if(actualNumberOfQuestions == 0 || actualNumberOfQuestions>numberOfQuestions){
                         STARTButton.setEnabled(false);
                     }else
                         STARTButton.setEnabled(true);

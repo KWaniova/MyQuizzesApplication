@@ -4,20 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.myquizzesapplication.DBHelper.DBHelper;
-import com.example.myquizzesapplication.QuizFolder.QuizMenuActivity;
-import com.example.myquizzesapplication.QuizFolder.TypeQuizNameActivity;
 import com.example.myquizzesapplication.R;
-import com.example.myquizzesapplication.Statistic.StatisticViewActivity;
 
 import java.util.List;
 
@@ -25,7 +19,7 @@ public class QuestionsViewActivity extends AppCompatActivity {
 
     Intent intent;
     List<Question> questions;
-    QuestionViewAdapter adapter;
+    QuestionsViewAdapter adapter;
     DBHelper dbHelper = DBHelper.getInstance(this);
     int quizPosition;
 
@@ -59,7 +53,7 @@ public class QuestionsViewActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.questions_recycle_view);
         setQuestions();
 
-        adapter = new QuestionViewAdapter(this,quizPosition);
+        adapter = new QuestionsViewAdapter(this,quizPosition);
 
         recyclerView.setLayoutManager(new GridLayoutManager(this,1));
         recyclerView.setAdapter(adapter);
@@ -69,8 +63,6 @@ public class QuestionsViewActivity extends AppCompatActivity {
         if(getIntent().getExtras() != null) {
             intent = getIntent();
             quizPosition = intent.getIntExtra("QuizPositionInQuizzes",-1);
-            System.out.println("Quiz position>>>>>>>." + quizPosition);
-
             try{
                 questions = dbHelper.getQuizzes().get(quizPosition).getQuestions();
 

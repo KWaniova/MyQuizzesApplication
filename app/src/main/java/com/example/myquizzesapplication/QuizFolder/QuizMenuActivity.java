@@ -21,6 +21,8 @@ import com.example.myquizzesapplication.Question.QuestionsViewActivity;
 import com.example.myquizzesapplication.R;
 import com.example.myquizzesapplication.Statistic.StatisticViewActivity;
 
+import java.util.ArrayList;
+
 public class QuizMenuActivity extends AppCompatActivity {
 
     Intent intent;
@@ -141,6 +143,9 @@ public class QuizMenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(QuizMenuActivity.this,"Clicked at start game" ,Toast.LENGTH_SHORT).show();
                 intent = new Intent(getApplicationContext(), GameStartActivity.class);
+                ArrayList<Integer> quizList = new ArrayList<>();
+                quizList.add(quizPosition);
+                intent.putExtra("SelectedItemsList",quizList);
                 startActivity(intent);
             }
         });
