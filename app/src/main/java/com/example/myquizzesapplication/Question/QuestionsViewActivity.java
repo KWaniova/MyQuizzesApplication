@@ -4,15 +4,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.myquizzesapplication.DBHelper.DBHelper;
 import com.example.myquizzesapplication.R;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 public class QuestionsViewActivity extends AppCompatActivity {
@@ -22,6 +30,8 @@ public class QuestionsViewActivity extends AppCompatActivity {
     QuestionsViewAdapter adapter;
     DBHelper dbHelper = DBHelper.getInstance(this);
     int quizPosition;
+    public static int PICK_FILE = 1;
+    private static final String TAG = "MyActivity";
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

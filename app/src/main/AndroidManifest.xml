@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Game.GameActivity"></activity>
+        <activity android:name=".QuizFolder.AddQuestionsFromFileActivity"></activity>
+        <activity android:name=".Game.ResultViewActivity" />
+        <activity android:name=".Game.GameActivity" />
         <activity android:name=".Game.SelectionQuizzesToGameActivity" />
         <activity android:name=".Question.AddQuestionActivity" />
         <activity android:name=".Question.QuestionEditorActivity" />

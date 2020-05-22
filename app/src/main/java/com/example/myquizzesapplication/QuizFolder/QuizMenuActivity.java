@@ -3,7 +3,9 @@ package com.example.myquizzesapplication.QuizFolder;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,12 +18,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.example.myquizzesapplication.DBHelper.DBHelper;
+import com.example.myquizzesapplication.FileHelper;
 import com.example.myquizzesapplication.Game.GameStartActivity;
 import com.example.myquizzesapplication.Question.QuestionsViewActivity;
 import com.example.myquizzesapplication.R;
 import com.example.myquizzesapplication.Statistic.StatisticViewActivity;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+import static com.example.myquizzesapplication.Question.QuestionsViewActivity.PICK_FILE;
 
 public class QuizMenuActivity extends AppCompatActivity {
 
@@ -31,25 +39,13 @@ public class QuizMenuActivity extends AppCompatActivity {
     private TextView quizName, numberOfQuestions;
     private CardView showQuestions, showStatistic, startGame;
     private DBHelper dbHelper = DBHelper.getInstance(this);
+    public static int PICK_FILE = 2;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_quiz_activity,menu);
         return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("activity Result after change quiz name");
-        if(requestCode == 1){
-            if(resultCode == RESULT_OK){
-                String name = data.getStringExtra("QuizName");
-                dbHelper.editQuizName(quizPosition,name);
-                onResume();
-            }
-        }
     }
 
     @Override
@@ -81,10 +77,52 @@ public class QuizMenuActivity extends AppCompatActivity {
                     .show();
             return true;
         }
+        else if(item.getItemId() == R.id.add_questions_from_file){
+            performFileSearch();
+            return true;
+        }
         return false;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("activity Result after change quiz name");
+        if(requestCode == 1){
+            if(resultCode == RESULT_OK){
+                String name = data.getStringExtra("QuizName");
+                dbHelper.editQuizName(quizPosition,name);
+                onResume();
+            }
+        }
+        if (requestCode == PICK_FILE) {
+            if (resultCode == RESULT_OK) {
+                //To another activity
+                Uri uri = data.getData();
+                if((getContentResolver().getType(uri)).equals("text/plain")){
+                    intent = new Intent(QuizMenuActivity.this,AddQuestionsFromFileActivity.class);
+                    intent.putExtra("UriData",uri.toString());
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(this, "Wrong data type selected.", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(this, "Wrong data type", Toast.LENGTH_LONG).show();
+                Log.i("Wrong data type", data.toString());
+            }
+        }
+    }
 
+    public void performFileSearch() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("text/plain");
+        startActivityForResult(intent, PICK_FILE);
+    }
+
+
+    public static String getFileExt(String fileName) {
+        return fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
+    }
     public void setQuiz(){
 
         if(getIntent().getExtras() != null) {

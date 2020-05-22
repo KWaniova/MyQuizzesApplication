@@ -10,32 +10,27 @@
     android:weightSum="8"
     android:orientation="vertical">
 
-    <LinearLayout
+    <Button
+        android:background="#009688"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.5">
+        android:layout_height="0dp"
+        android:text="START GAME"
+        android:textSize="30dp"
+        android:id="@+id/start_game_button"/>
 
-        <Button
-            android:background="#009688"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="START GAME"
-            android:textSize="30dp"
-            android:id="@+id/start_game_button"/>
-
-    </LinearLayout>
     <ScrollView
-        android:layout_weight="6.5"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:scrollbars="vertical"
+        android:layout_weight="7"
         android:scrollbarFadeDuration="0"
         android:scrollbarStyle="insideInset">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_id"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="0dp"/>
     </ScrollView>
 
 
