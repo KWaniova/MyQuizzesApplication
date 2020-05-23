@@ -14,9 +14,10 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.myquizzesapplication.DBHelper.DBHelper;
+import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
 import com.example.myquizzesapplication.R;
 
-public class QuestionEditorActivity extends AppCompatActivity {
+public class QuestionEditorActivity extends AppCompatActivity implements ActivityInterfaceWithButtons {
 
     RadioButton true_RB, false_RB;
     Button OKButton;
@@ -29,18 +30,21 @@ public class QuestionEditorActivity extends AppCompatActivity {
     boolean newRightAnswer;
     DBHelper dbHelper = DBHelper.getInstance(this);
 
+    @Override
+    public void getDataFromIntent() {
+        intent = getIntent();
+        quizPosition = intent.getIntExtra("quizPosition",-1);
+        questionPosition = intent.getIntExtra("questionPosition",-1);
+        newQuestionContent = dbHelper.getQuizzes().get(quizPosition).getQuestions().get(questionPosition).getContent();
+        questionContent.setText(newQuestionContent);
+    }
+
     public void setView(){
         true_RB = (RadioButton)findViewById(R.id.radio_button_true);
         false_RB = (RadioButton)findViewById(R.id.radio_button_false);
         OKButton =(Button)findViewById(R.id.ok_button_edit_question);
         questionContent = (EditText)findViewById(R.id.question_content_edit_text_view);
         radioGroup = (RadioGroup)findViewById(R.id.radio_group);
-
-        intent = getIntent();
-        quizPosition = intent.getIntExtra("quizPosition",-1);
-        questionPosition = intent.getIntExtra("questionPosition",-1);
-        newQuestionContent = dbHelper.getQuizzes().get(quizPosition).getQuestions().get(questionPosition).getContent();
-        questionContent.setText(newQuestionContent);
         setRadioChecked();
     }
     public void setRadioChecked(){
@@ -84,17 +88,11 @@ public class QuestionEditorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_editor);
+        getDataFromIntent();
         setView();
+        buttonsSettings();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        OKButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("new right answer " + newRightAnswer);
-                dbHelper.editQuestion(quizPosition,questionPosition,newQuestionContent,newRightAnswer);
-                finish();
-            }
-        });
 
         questionContent.addTextChangedListener(new TextWatcher() {
             @Override
@@ -111,5 +109,19 @@ public class QuestionEditorActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void buttonsSettings() {
+        OKButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("new right answer " + newRightAnswer);
+                dbHelper.editQuestionContent(quizPosition,questionPosition,newQuestionContent);
+                dbHelper.editQuestionAnswer(quizPosition,questionPosition,newRightAnswer);
+                finish();
+            }
+        });
+
     }
 }

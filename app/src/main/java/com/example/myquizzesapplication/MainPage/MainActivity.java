@@ -38,7 +38,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         start_game_button = (Button)findViewById(R.id.start_game_button);
+        recycler_quiz = (RecyclerView)findViewById(R.id.recyclerView_id);
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseOnStart();
 
-        recycler_quiz = (RecyclerView)findViewById(R.id.recyclerView_id);
         recycler_quiz.setHasFixedSize(true);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -76,9 +78,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("activity Result");
         if(requestCode == 1){
-
             if(resultCode == RESULT_OK){
                 String name = data.getStringExtra("QuizName");
                 dbHelper.addQuiz(name);
@@ -108,21 +108,17 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
 
 }

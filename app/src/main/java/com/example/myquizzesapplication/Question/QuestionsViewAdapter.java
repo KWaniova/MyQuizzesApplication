@@ -33,7 +33,6 @@ public class QuestionsViewAdapter extends RecyclerView.Adapter<QuestionsViewAdap
         this.questions = dbHelper.getQuizzes().get(quizPosition).getQuestions();
     }
 
-    @NonNull
     @Override
     public QuestionsViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
@@ -78,7 +77,7 @@ public class QuestionsViewAdapter extends RecyclerView.Adapter<QuestionsViewAdap
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                dbHelper.removeQuestion(quizPosition,position);
+                                dbHelper.deleteQuestion(quizPosition,position);
                                 System.out.println("questions size: " + questions.size());
                                 notifyDataSetChanged();
                             }
@@ -90,7 +89,6 @@ public class QuestionsViewAdapter extends RecyclerView.Adapter<QuestionsViewAdap
         });
 
     }
-
 
 
     @Override

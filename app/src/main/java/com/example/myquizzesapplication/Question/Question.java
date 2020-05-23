@@ -7,9 +7,14 @@ public class Question{
     private boolean rightAnswer;
 
     public Question(int quizID, String content, boolean rightAnswer) {
+        this.quizID = quizID;
         this.content = content;
         this.rightAnswer = rightAnswer;
-        this.quizID = quizID;
+    }
+
+    public Question(String content, boolean rightAnswer) {
+        this.content = content;
+        this.rightAnswer = rightAnswer;
     }
 
     public int getQuizID() {
@@ -31,4 +36,5 @@ public class Question{
     public void setRightAnswer(boolean rightAnswer) {
         this.rightAnswer = rightAnswer;
     }
+    public void setQuizID(int QuizID){this.quizID = QuizID;};
 }

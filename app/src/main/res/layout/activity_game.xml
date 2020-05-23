@@ -16,29 +16,37 @@
         android:text="Question Content"
         android:layout_margin="20dp"
         android:textSize="20dp"/>
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/game_true_answer"
-        android:text="TRUE"
-        android:textSize="30dp"
-        android:gravity="center"
-        android:background="#BAD1D1"
-        android:layout_margin="10dp"
-        android:textStyle="bold"
-        android:layout_weight="0.5"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/game_false_answer"
-        android:background="#BAD1D1"
-        android:layout_margin="10dp"
-        android:text="FALSE"
-        android:textSize="30dp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:layout_weight="0.5"/>
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/game_true_answer"
+            android:text="TRUE"
+            android:textSize="30dp"
+            android:gravity="center"
+            android:background="#BAD1D1"
+            android:layout_margin="10dp"
+            android:textStyle="bold"
+            android:layout_weight="0.5"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/game_false_answer"
+            android:background="#BAD1D1"
+            android:layout_margin="10dp"
+            android:text="FALSE"
+            android:textSize="30dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_weight="0.5"/>
+    </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.myquizzesapplication.Question.Question;
 import com.example.myquizzesapplication.QuizFolder.Quiz;
@@ -26,7 +27,7 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperInterface {
 
     final String INSERT_INTO_QUIZZES = "INSERT INTO Quizzes (QuizName) VALUES ";
     final String INSERT_INTO_QUESTIONS = "INSERT INTO Questions (QuizID,QuestionContent,RightAnswer) VALUES ";
-
+    Context context;
     public List<Quiz> getQuizzes() {
         return quizzes;
     }
@@ -37,6 +38,7 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperInterface {
         if(instance == null){
             instance = new DBHelper(context);
         }
+        instance.context = context;
         return instance;
     }
 
@@ -60,7 +62,7 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperInterface {
         }
     }
 
-    private List<Quiz> getAllQuizzes(){
+    public List<Quiz> getAllQuizzes(){
         quizzes = new ArrayList<>();
         try{
             Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME_QUIZZES,null);
@@ -116,23 +118,126 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperInterface {
         return questions;
     }
 
+
     @Override
-    public Quiz getQuiz(int quizPosition) {
-        return null;
+    public boolean addQuiz(String name) {
+        try{
+            ContentValues values = new ContentValues();
+            values.put("QuizName",name);
+
+            long insertID = db.insert("Quizzes","",values);//getting unique quizID
+
+            Quiz quiz = new Quiz((int)insertID,name);
+            quizzes.add(quiz);
+            showQuizzesInDatabase();
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
-    public void addQuiz() {
+    public boolean deleteQuiz(int quizPosition) {
+        int QuizID = quizzes.get(quizPosition).getIdQuiz();//getting id of quiz in database
+        String quizName = quizzes.get(quizPosition).getName();
+        try{
+            db.execSQL("DELETE FROM Quizzes WHERE QuizID = " + QuizID);
+            db.execSQL("DELETE FROM Questions WHERE QuizID = " + QuizID);//deleting all questions
+            quizzes.remove(quizPosition);
+            //showQuizzesInDatabase();
+            Toast.makeText(context,quizName + " successfully removed!",Toast.LENGTH_SHORT);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        Toast.makeText(context,quizName + " can't be removed!",Toast.LENGTH_SHORT);
+        return false;
+    }
 
+
+    @Override
+    public boolean editQuizName(int QuizPosition,String name){
+        int idQuiz = quizzes.get(QuizPosition).getIdQuiz();
+        ContentValues values = new ContentValues();
+        values.put("QuizName",name);
+        String where = "QuizID=?";
+        String[] whereArgs = new String[] {String.valueOf(idQuiz)};
+
+        db.update("Quizzes",values,where,whereArgs);
+        quizzes.get(QuizPosition).setName(name);
+
+        //showQuizzesInDatabase();
+        return true;
     }
 
     @Override
-    public void deleteQuiz(int quizPosition) {
-
+    public boolean addQuestion(int quizPosition, Question question) {
+        try {
+            int QuizID = quizzes.get(quizPosition).getIdQuiz();
+            question.setQuizID(QuizID);
+            String rightAnswer = (question.isRightAnswer() ? "TRUE" : "FALSE");
+            db.execSQL(INSERT_INTO_QUESTIONS +  "(" + question.getQuizID() + ",'" + question.getContent() + "', '" + rightAnswer + "')");
+            quizzes.get(quizPosition).getQuestions().add(question);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
 
+    @Override
+    public boolean deleteQuestion(int quizPosition, int questionPosition) {
+        String QuestionContent = quizzes.get(quizPosition).getQuestions().get(questionPosition).getContent();
+        int QuizID = quizzes.get(quizPosition).getIdQuiz();
+        try {
+            db.execSQL("DELETE FROM Questions WHERE QuizID = " +QuizID +" AND QuestionContent LIKE '" + QuestionContent + "'");
+            quizzes.get(quizPosition).getQuestions().remove(questionPosition);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return true;
+    }
 
+    @Override
+    public boolean editQuestionContent(int quizPosition, int questionPosition, String newContent) {
+        String oldContent = quizzes.get(quizPosition).getQuestions().get(questionPosition).getContent();
+        ContentValues values = new ContentValues();
+        try {
+            if(!newContent.equals(oldContent)){
+                values.put("QuestionContent",newContent);
+                String where = "QuestionContent=?";
+                String[] whereArgs = new String[] {oldContent};
+                db.update("Questions",values,where,whereArgs);
+                quizzes.get(quizPosition).getQuestions().get(questionPosition).setContent(newContent);
+            }
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
+        //showQuestionsInDatabase();
+        return false;
+    }
+
+    @Override
+    public boolean editQuestionAnswer(int quizPosition, int questionPosition, Boolean newAnswer) {
+        boolean oldAnswer = quizzes.get(quizPosition).getQuestions().get(questionPosition).isRightAnswer();
+        ContentValues values = new ContentValues();
+        try{
+            if(newAnswer != oldAnswer){
+                int quizID = quizzes.get(quizPosition).getIdQuiz();
+                String answer = (newAnswer == true ? "TRUE" : "FALSE");
+                String questionContent = quizzes.get(quizPosition).getQuestions().get(questionPosition).getContent();
+                db.execSQL("UPDATE Quizzes SET RightAnswer='" +answer + "'  WHERE QuizID = " + quizID + " AND QuestionContent ='" +  questionContent + "'");
+                quizzes.get(quizPosition).getQuestions().get(questionPosition).setRightAnswer(newAnswer);
+            }
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public void showQuizzesInDatabase(){
         Cursor c = db.rawQuery("SELECT * FROM Quizzes", null);
@@ -181,128 +286,6 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperInterface {
         }
     }
 
-    public boolean addQuestion(String questionContent,boolean RightAnswer,int QuizPositionInQuizzes){
-        try {
-            System.out.println("QuizPositionInQuizzes " +QuizPositionInQuizzes);
-            int QuizID = quizzes.get(QuizPositionInQuizzes).getIdQuiz();
-            Question question = new Question(QuizID,questionContent,RightAnswer);
-            String rightAnswer;
-            if(question.isRightAnswer() == true){
-                rightAnswer = "TRUE";
-            }else{
-                rightAnswer= "FALSE";
-            }
-            db.execSQL(INSERT_INTO_QUESTIONS +  "(" + question.getQuizID() + ",'" + question.getContent() + "', '" + rightAnswer + "')");
-            quizzes.get(QuizPositionInQuizzes).getQuestions().add(question);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
 
-        return true;
-    }
-
-    public boolean editQuizName(int QuizPosition,String name){
-        int idQuiz = quizzes.get(QuizPosition).getIdQuiz();
-        ContentValues values = new ContentValues();
-        values.put("QuizName",name);
-        String where = "QuizID=?";
-        String[] whereArgs = new String[] {String.valueOf(idQuiz)};
-        long insertID = db.update("Quizzes",values,where,whereArgs);
-        quizzes.get(QuizPosition).setName(name);
-        showQuizzesInDatabase();
-        return true;
-    }
-
-
-
-    @Override
-    public void addQuestion(int quizPosition, Question question) {
-
-    }
-
-    @Override
-    public void deleteQuestion(int quizPosition, int questionPosition) {
-
-    }
-
-    @Override
-    public void editQuestionContent(int quizPosition, int questionPosition, String newContent) {
-
-    }
-
-    @Override
-    public void editQuestionAnswer(int quizPosition, int questionPosition, Boolean newAnswer) {
-
-    }
-
-    public boolean removeQuestion(int QuizPosition, int QuestionPosition){
-        String UniquieQuestionContent = quizzes.get(QuizPosition).getQuestions().get(QuestionPosition).getContent();
-        int QuizID = quizzes.get(QuizPosition).getIdQuiz();
-        try {
-            db.execSQL("DELETE FROM Questions WHERE QuizID = " +QuizID +" AND QuestionContent LIKE '" + UniquieQuestionContent + "'");
-            quizzes.get(QuizPosition).getQuestions().remove(QuestionPosition);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return true;
-    }
-
-    public boolean editQuestion(int QuizPositionInQuizzes, int QuestionPosition, String newQuestionContent,boolean newRightAnswer){
-        String oldQuestionContent = quizzes.get(QuizPositionInQuizzes).getQuestions().get(QuestionPosition).getContent();
-        boolean oldAnswer = quizzes.get(QuizPositionInQuizzes).getQuestions().get(QuestionPosition).isRightAnswer();
-        System.out.println("oldAnswer " +oldAnswer + ", newAnswer " + newRightAnswer );
-        ContentValues values = new ContentValues();
-        if(newRightAnswer != oldAnswer){
-            System.out.println(newRightAnswer);
-            if(newRightAnswer == true){
-                values.put("RightAnswer","TRUE");
-            }else{
-                values.put("RightAnswer","FALSE");
-            }
-            String where = "QuestionContent=?";
-            String[] whereArgs = new String[] {oldQuestionContent};
-            db.update("Questions",values,where,whereArgs);
-            quizzes.get(QuizPositionInQuizzes).getQuestions().get(QuestionPosition).setRightAnswer(newRightAnswer);
-        }
-        System.out.println("newQuestionContent= " + newQuestionContent + " , oldQuestionContent = " + oldQuestionContent );
-        if(!newQuestionContent.equals(oldQuestionContent)){
-            values.put("QuestionContent",newQuestionContent);
-            String where = "QuestionContent=?";
-            String[] whereArgs = new String[] {oldQuestionContent};
-            db.update("Questions",values,where,whereArgs);
-            quizzes.get(QuizPositionInQuizzes).getQuestions().get(QuestionPosition).setContent(newQuestionContent);
-        }
-        showQuestionsInDatabase();
-        return true;
-    }
-    public boolean addQuiz(String name){
-        try{
-            ContentValues values = new ContentValues();
-            values.put("QuizName",name);
-            long insertID = db.insert("Quizzes","",values);
-            Quiz quiz = new Quiz((int)insertID,name);
-            quizzes.add(quiz);
-            showQuizzesInDatabase();
-            return true;
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean removeQuiz(int QuizPosition){
-        int QuizID = quizzes.get(QuizPosition).getIdQuiz();
-        System.out.println("Quiz: " + quizzes.get(QuizPosition).getName() + " will be removed");
-        try{
-            db.execSQL("DELETE FROM Quizzes WHERE QuizID = " +QuizID);
-            db.execSQL("DELETE FROM Questions WHERE QuizID = " +QuizID);
-            quizzes.remove(QuizPosition);
-            showQuizzesInDatabase();
-            return true;
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return false;
-    }
 }
 

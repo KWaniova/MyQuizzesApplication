@@ -16,10 +16,13 @@ import android.widget.Toast;
 
 import com.example.myquizzesapplication.DBHelper.DBHelper;
 import com.example.myquizzesapplication.FileHelper.FileHelper;
+import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
+import com.example.myquizzesapplication.KeyboardSettingsClass;
+import com.example.myquizzesapplication.Question.Question;
 import com.example.myquizzesapplication.Question.QuestionFromFileFormat;
 import com.example.myquizzesapplication.R;
 
-public class AddQuestionsFromFileActivity extends AppCompatActivity {
+public class AddQuestionsFromFileActivity extends AppCompatActivity implements ActivityInterfaceWithButtons {
 
     EditText TRUEAnswerFormat, FALSEAnswerFormat;
     RadioButton TabRadioButton, NewLineRadioButton;
@@ -29,7 +32,8 @@ public class AddQuestionsFromFileActivity extends AppCompatActivity {
     DBHelper dbHelper = DBHelper.getInstance(this);
     int quizPosition;
 
-    public void initialize(){
+    @Override
+    public void setView(){
         TRUEAnswerFormat = findViewById(R.id.enter_true_answer_format);
         FALSEAnswerFormat = findViewById(R.id.enter_false_answer_format);
         TabRadioButton = findViewById(R.id.tabulator_radio_button);
@@ -44,7 +48,8 @@ public class AddQuestionsFromFileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_questions_from_file);
-        initialize();
+        setView();
+        buttonsSettings();
         getDataFromIntent();
 
         TRUEAnswerFormat.addTextChangedListener(new TextWatcher() {
@@ -90,39 +95,16 @@ public class AddQuestionsFromFileActivity extends AppCompatActivity {
             }
         });
 
-        CANCELButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        ADDButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //set questions from file in database
-                getDataFromFile();
-                //finish
-                finish();
-            }
-        });
-
     }
 
+    @Override
     public void getDataFromIntent(){
         uri = Uri.parse(getIntent().getExtras().getString("UriData"));
         quizPosition = getIntent().getIntExtra("QuizPosition",-1);
     }
-    private void closeKeyboard(){
-        View view = this.getCurrentFocus();
-        if(view!=null){
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
-        }
-    }
 
     public void onLinearLayoutClick(View view) {
-        closeKeyboard();
+        KeyboardSettingsClass.closeKeyboard(this);
     }
 
     public void radioButtonOnClick(View view) {
@@ -158,7 +140,28 @@ public class AddQuestionsFromFileActivity extends AppCompatActivity {
             if(separatedTextFromFile[i+1].toLowerCase().equals(questionFromFileFormat.getTrueAnswerFormat()))
                 rightAnswer = true;
             else rightAnswer = false;
-            dbHelper.addQuestion(separatedTextFromFile[i],rightAnswer,quizPosition);
+            Question q = new Question(separatedTextFromFile[i],rightAnswer);
+            dbHelper.addQuestion(quizPosition,q);
         }
+    }
+
+    @Override
+    public void buttonsSettings() {
+        CANCELButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        ADDButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //set questions from file in database
+                getDataFromFile();
+                //finish
+                finish();
+            }
+        });
     }
 }

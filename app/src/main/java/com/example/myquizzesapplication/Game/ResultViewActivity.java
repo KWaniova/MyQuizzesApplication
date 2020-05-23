@@ -8,10 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.myquizzesapplication.DBHelper.DBHelper;
+import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
 import com.example.myquizzesapplication.R;
 
-public class ResultViewActivity extends AppCompatActivity {
+public class ResultViewActivity extends AppCompatActivity implements ActivityInterfaceWithButtons {
 
     Intent intent;
     Button OKResultButton;
@@ -22,22 +22,10 @@ public class ResultViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_view);
-        OKResultButton = (Button)findViewById(R.id.result_ok_button);
-        resultNumberOfQuestions = (TextView)findViewById(R.id.number_of_questionsX);
-        resultNumberOgRight = (TextView)findViewById(R.id.number_of_right_questionsX);
-        resultNumberOgWrong = (TextView)findViewById(R.id.number_of_wrong_questionsX);
+
         getDataFromIntent();
-
-        resultNumberOfQuestions.setText("Number of questions: " + quantityOfQuestions);
-        resultNumberOgRight.setText("Right answers " + rightAnswers);
-        resultNumberOgWrong.setText("Wrong answers " + wrongAnswers);
-
-        OKResultButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        setView();
+        buttonsSettings();
     }
 
     public void getDataFromIntent(){
@@ -47,4 +35,25 @@ public class ResultViewActivity extends AppCompatActivity {
         quantityOfQuestions = intent.getIntExtra("numberOfQuestions",-1);
     }
 
+    @Override
+    public void setView() {
+        OKResultButton = (Button)findViewById(R.id.result_ok_button);
+        resultNumberOfQuestions = (TextView)findViewById(R.id.number_of_questionsX);
+        resultNumberOgRight = (TextView)findViewById(R.id.number_of_right_questionsX);
+        resultNumberOgWrong = (TextView)findViewById(R.id.number_of_wrong_questionsX);
+
+        resultNumberOfQuestions.setText("Number of questions: " + quantityOfQuestions);
+        resultNumberOgRight.setText("Right answers " + rightAnswers);
+        resultNumberOgWrong.setText("Wrong answers " + wrongAnswers);
+    }
+
+    @Override
+    public void buttonsSettings() {
+        OKResultButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
 }

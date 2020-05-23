@@ -19,13 +19,14 @@ import androidx.cardview.widget.CardView;
 
 import com.example.myquizzesapplication.DBHelper.DBHelper;
 import com.example.myquizzesapplication.Game.GameStartActivity;
+import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
 import com.example.myquizzesapplication.Question.QuestionsViewActivity;
 import com.example.myquizzesapplication.R;
 import com.example.myquizzesapplication.Statistic.StatisticViewActivity;
 
 import java.util.ArrayList;
 
-public class QuizMenuActivity extends AppCompatActivity {
+public class QuizMenuActivity extends AppCompatActivity implements ActivityInterfaceWithButtons {
 
     Intent intent;
     private Quiz quiz;
@@ -46,25 +47,27 @@ public class QuizMenuActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
 
+        // Handle action bar item clicks here.
+
         if(item.getItemId() == R.id.edit_quiz_name_menu_item){
-            //edytowanie nazwy quizu
+            //edit quiz name
             Intent intent = new Intent(getApplicationContext(), TypeQuizNameActivity.class);
             intent.putExtra("QuizPosition",quizPosition);
             startActivityForResult(intent,1);
             return true;
         }
         else if(item.getItemId() == R.id.delete_quiz_menu_item){
-
+            //deleting quiz
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Are you sure?")
-                    .setMessage("Do you want to delete this question?")
+                    .setMessage("Do you want to delete this quiz?")
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String QuizName = quiz.getName();
-                            Toast.makeText(QuizMenuActivity.this,"Clicked at delete " +QuizName ,Toast.LENGTH_SHORT).show();
-                            dbHelper.removeQuiz(quizPosition);
+                            Toast.makeText(QuizMenuActivity.this,QuizName + " deleted." ,Toast.LENGTH_SHORT).show();
+                            dbHelper.deleteQuiz(quizPosition);
                             finish();
                         }
                     })
@@ -73,10 +76,33 @@ public class QuizMenuActivity extends AppCompatActivity {
             return true;
         }
         else if(item.getItemId() == R.id.add_questions_from_file){
+            //adding questions from file
             performFileSearch();
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void setView() {
+        quizName = (TextView)findViewById(R.id.quiz_menu_text_view);
+        numberOfQuestions = (TextView)findViewById(R.id.quiz_menu_quantity_of_questions);
+        showQuestions = (CardView)findViewById(R.id.show_questions_card_view);
+        showStatistic = (CardView)findViewById(R.id.show_quiz_statistic_card_view);
+        startGame = (CardView)findViewById(R.id.start_quiz_card_view);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_quiz_menu);
+
+        getDataFromIntent();//intent and setting quiz obj, setting name and quantity of questions in onResume()
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        buttonsSettings();
+
     }
 
     @Override
@@ -116,39 +142,15 @@ public class QuizMenuActivity extends AppCompatActivity {
     }
 
 
-    public static String getFileExt(String fileName) {
-        return fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
-    }
-    public void setQuiz(){
-
-        if(getIntent().getExtras() != null) {
-            intent = getIntent();
-            quizPosition = intent.getIntExtra("QuizPositionInQuizzes", -1);
-            try{
-                quiz = dbHelper.getQuizzes().get(quizPosition);
-            }catch (Exception e){
-                System.out.println("Quiz menu activity - QuizPositionInQuizzes error");
-                e.printStackTrace();
-            }
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        quizName.setText(quiz.getName());
+        numberOfQuestions.setText(Integer.toString(quiz.getNumberOfQuestions()));
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quiz_menu);
-
-        System.out.println("Quiz menu activity");
-        quizName = (TextView)findViewById(R.id.quiz_menu_text_view);
-        numberOfQuestions = (TextView)findViewById(R.id.quiz_menu_quantity_of_questions);
-        showQuestions = (CardView)findViewById(R.id.show_questions_card_view);
-        showStatistic = (CardView)findViewById(R.id.show_quiz_statistic_card_view);
-        startGame = (CardView)findViewById(R.id.start_quiz_card_view);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setQuiz();//intent and setting quiz obj, setting name and quantity of questions in onResume()
-
-
+    public void buttonsSettings() {
         showQuestions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,14 +186,18 @@ public class QuizMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
-
     @Override
-    protected void onResume() {
-        super.onResume();
-        quizName.setText(quiz.getName());
-        numberOfQuestions.setText(Integer.toString(quiz.getNumberOfQuestions()));
+    public void getDataFromIntent() {
+        if(getIntent().getExtras() != null) {
+            intent = getIntent();
+            quizPosition = intent.getIntExtra("QuizPositionInQuizzes", -1);
+            try{
+                quiz = dbHelper.getQuizzes().get(quizPosition);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 }

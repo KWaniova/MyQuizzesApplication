@@ -8,22 +8,20 @@ import java.util.List;
 public interface DBHelperInterface {
     List<Quiz> getAllQuizzes();
 
-    Quiz getQuiz(int quizPosition);
+    boolean addQuiz(String name);
 
-    void addQuiz();
+    boolean deleteQuiz(int quizPosition);
 
-    void deleteQuiz(int quizPosition);
-
-    void editQuizName(int quizPosition, String newQuizName);
+    boolean editQuizName(int quizPosition, String newQuizName);
 
     List<Question> getAllQuizQuestions(int quizID);
 
-    void addQuestion(int quizPosition, Question question);
+    boolean addQuestion(int quizPosition, Question question);
 
-    void deleteQuestion(int quizPosition, int questionPosition);
+    boolean deleteQuestion(int quizPosition, int questionPosition);
 
-    void editQuestionContent(int quizPosition, int questionPosition, String newContent);
+    boolean editQuestionContent(int quizPosition, int questionPosition, String newContent);
 
-    void editQuestionAnswer(int quizPosition, int questionPosition, Boolean newAnswer);
+    boolean editQuestionAnswer(int quizPosition, int questionPosition, Boolean newAnswer);
 
 }

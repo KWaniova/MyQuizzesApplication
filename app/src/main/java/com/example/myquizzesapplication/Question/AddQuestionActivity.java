@@ -15,9 +15,10 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.myquizzesapplication.DBHelper.DBHelper;
+import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
 import com.example.myquizzesapplication.R;
 
-public class AddQuestionActivity extends AppCompatActivity {
+public class AddQuestionActivity extends AppCompatActivity implements ActivityInterfaceWithButtons {
 
     RadioButton true_RB, false_RB;
     Button ADDButton, CancelButton;
@@ -28,24 +29,13 @@ public class AddQuestionActivity extends AppCompatActivity {
     boolean questionAnswer = true;
     DBHelper dbHelper = DBHelper.getInstance(this);
 
-    public void setView(){
-        true_RB = (RadioButton)findViewById(R.id.radio_button_true);
-        false_RB = (RadioButton)findViewById(R.id.radio_button_false);
-        ADDButton =(Button)findViewById(R.id.add_new_question_button);
-        questionContent = (EditText)findViewById(R.id.question_content_edit_text_view);
-        CancelButton = (Button)findViewById(R.id.cancel_new_question_button);
-
-        intent = getIntent();
-        quizPosition = intent.getIntExtra("quizPosition",-1);
-        System.out.println("AddQuestionActivity quizPosition: " + quizPosition);
-        true_RB.setChecked(true);
-        false_RB.setChecked(false);
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
         setView();
+        getDataFromIntent();
+        buttonsSettings();
 
         questionContent.addTextChangedListener(new TextWatcher() {
             @Override
@@ -64,22 +54,6 @@ public class AddQuestionActivity extends AppCompatActivity {
 
             }
         });
-
-        CancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        ADDButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dbHelper.addQuestion(newQuestionContent, questionAnswer,quizPosition);
-                finish();
-            }
-        });
-
     }
 
     public void onRadioButtonClicked(View view) {
@@ -105,5 +79,42 @@ public class AddQuestionActivity extends AppCompatActivity {
                 break;
         }
         Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void buttonsSettings() {
+        true_RB.setChecked(true);
+        false_RB.setChecked(false);
+
+        CancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        ADDButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Question q = new Question(newQuestionContent,questionAnswer);
+                dbHelper.addQuestion(quizPosition,q);
+                finish();
+            }
+        });
+    }
+
+    @Override
+    public void getDataFromIntent() {
+        intent = getIntent();
+        quizPosition = intent.getIntExtra("quizPosition",-1);
+    }
+
+    @Override
+    public void setView() {
+        true_RB = (RadioButton)findViewById(R.id.radio_button_true);
+        false_RB = (RadioButton)findViewById(R.id.radio_button_false);
+        ADDButton =(Button)findViewById(R.id.add_new_question_button);
+        questionContent = (EditText)findViewById(R.id.question_content_edit_text_view);
+        CancelButton = (Button)findViewById(R.id.cancel_new_question_button);
     }
 }

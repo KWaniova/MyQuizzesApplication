@@ -14,17 +14,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.myquizzesapplication.DBHelper.DBHelper;
+import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
+import com.example.myquizzesapplication.KeyboardSettingsClass;
 import com.example.myquizzesapplication.R;
 
 import org.w3c.dom.Text;
 
-public class TypeQuizNameActivity extends AppCompatActivity {
+public class TypeQuizNameActivity extends AppCompatActivity implements ActivityInterfaceWithButtons {
 
     EditText enterQuizName;
     Button addButton;
     Button cancelButton;
     String quizName;
 
+    @Override
     public void getDataFromIntent(){
         int quizPosition = getIntent().getIntExtra("QuizPosition",-1);
 
@@ -33,15 +36,20 @@ public class TypeQuizNameActivity extends AppCompatActivity {
             quizName.setText(DBHelper.getInstance(this).getQuizzes().get(quizPosition).getName());
         }
     }
+
+    @Override
+    public void setView() {
+        enterQuizName = (EditText)findViewById(R.id.enter_quiz_name);
+        addButton = (Button)findViewById(R.id.add_button);
+        cancelButton = (Button)findViewById(R.id.cancel_button);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.type_quiz_name);
-
-        enterQuizName = (EditText)findViewById(R.id.enter_quiz_name);
-        addButton = (Button)findViewById(R.id.add_button);
-        cancelButton = (Button)findViewById(R.id.cancel_button);
         getDataFromIntent();
+        setView();
 
         enterQuizName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -59,7 +67,14 @@ public class TypeQuizNameActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+    public void onLinearLayoutClick(View view) {
+        KeyboardSettingsClass.closeKeyboard(this);
+    }
+
+    @Override
+    public void buttonsSettings() {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,17 +91,5 @@ public class TypeQuizNameActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    private void closeKeyboard(){
-        View view = this.getCurrentFocus();
-        if(view!=null){
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
-        }
-    }
-
-    public void onLinearLayoutClick(View view) {
-        closeKeyboard();
     }
 }

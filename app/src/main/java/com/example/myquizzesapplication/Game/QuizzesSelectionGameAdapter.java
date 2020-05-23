@@ -13,6 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myquizzesapplication.DBHelper.DBHelper;
+import com.example.myquizzesapplication.Interfaces.SelectionListInterface;
 import com.example.myquizzesapplication.QuizFolder.Quiz;
 import com.example.myquizzesapplication.R;
 
@@ -21,11 +22,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class QuizzesSelectionGameAdapter extends RecyclerView.Adapter<com.example.myquizzesapplication.Game.QuizzesSelectionGameAdapter.MyViewHolder> {
+public class QuizzesSelectionGameAdapter extends RecyclerView.Adapter<com.example.myquizzesapplication.Game.QuizzesSelectionGameAdapter.MyViewHolder> implements SelectionListInterface {
 
     private Context context;
     List<Quiz> quizzes;
-    Map<Integer,Boolean> selectedItemsList = new HashMap<Integer,Boolean>();
+    Map<Integer,Boolean> selectedItemsList = new HashMap<Integer,Boolean>();//which items are selected
     private DBHelper dbHelper;
     private int quantityOfSelectedItems = 0;
     TextView selectedTextView;
@@ -40,13 +41,14 @@ public class QuizzesSelectionGameAdapter extends RecyclerView.Adapter<com.exampl
         this.OKButton = (Button) OKButton;
         this.selectedTextView =(TextView) selectedTextView;
     }
-
-    public void initializeSelectedItemsList(){
+    @Override
+    public void initializeSelectedItemsList(){ //all items aren't selected
         for(int i = 0 ; i < quizzes.size(); i++){
             selectedItemsList.put(i,false);
         }
     }
 
+    @Override
     public ArrayList<Integer> getSelectedItemsList(){
         ArrayList<Integer> selected = new ArrayList<>();
         for(int i = 0 ; i < quizzes.size(); i++){
@@ -55,7 +57,7 @@ public class QuizzesSelectionGameAdapter extends RecyclerView.Adapter<com.exampl
         }
         return selected;
     }
-    @NonNull
+
     @Override
     public QuizzesSelectionGameAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
@@ -98,14 +100,12 @@ public class QuizzesSelectionGameAdapter extends RecyclerView.Adapter<com.exampl
 
         CardView cardView;
         TextView quizName;
-        //TextView quantityOfQuestionsSelected;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(View itemView) {
 
             super(itemView);
             cardView = itemView.findViewById(R.id.selected_item_text_view);
             quizName = itemView.findViewById(R.id.selected_item_quiz_name);
-            //quantityOfQuestionsSelected = itemView.findViewById(R.id.quantity_od_selected_quizzes);
         }
     }
 

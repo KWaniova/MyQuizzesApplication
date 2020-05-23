@@ -10,67 +10,40 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
 import com.example.myquizzesapplication.DBHelper.DBHelper;
+import com.example.myquizzesapplication.KeyboardSettingsClass;
 import com.example.myquizzesapplication.R;
 
 import java.util.ArrayList;
 
-public class GameStartActivity extends AppCompatActivity {
+public class GameStartActivity extends AppCompatActivity implements ActivityInterfaceWithButtons {
 
     Button STARTButton, CANCELButton;
     EditText enterNumberOfQuestions;
     ArrayList<Integer> quizzesSelected;
     Intent intent;
-    int numberOfQuestions;
-    int actualNumberOfQuestions;
-    DBHelper dbHelper;
+    int numberOfQuestions;//quantity of all questions from selected quizzes
+    int actualNumberOfQuestions;//number of questions that user enters
+    DBHelper dbHelper = DBHelper.getInstance(this);;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_start);
-        STARTButton = (Button)findViewById(R.id.ok_button_game_start);
-        CANCELButton = (Button)findViewById(R.id.cancel_button_game_start);
-        enterNumberOfQuestions = (EditText)findViewById(R.id.enter_number_of_questions);
+        setView();
+        buttonsSettings();
+
         setEnterNumberOfQuestionsOnClick();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        CANCELButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        STARTButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GameStartActivity.this,GameActivity.class);
-                intent.putExtra("SelectedItemsList",quizzesSelected);
-                intent.putExtra("numberOfQuestions",actualNumberOfQuestions);
-                startActivity(intent);
-                finish();
-            }
-        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         numberOfQuestions = 0;
-        setQuizList();
-    }
-
-    public void setQuizList(){
-        dbHelper = DBHelper.getInstance(this);
-        intent = getIntent();
-        quizzesSelected = (ArrayList<Integer>) intent.getSerializableExtra("SelectedItemsList");
-
-        for(int i = 0; i < quizzesSelected.size(); i++){
-            numberOfQuestions += dbHelper.getQuizzes().get(quizzesSelected.get(i)).getQuestions().size();
-        }
-
-        enterNumberOfQuestions.setHint("Enter number of questions. Max " + numberOfQuestions);
+        setView();
     }
 
     public void setEnterNumberOfQuestionsOnClick(){
@@ -96,5 +69,50 @@ public class GameStartActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void buttonsSettings() {
+            CANCELButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+
+            STARTButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(GameStartActivity.this,GameActivity.class);
+                    intent.putExtra("SelectedItemsList",quizzesSelected);
+                    intent.putExtra("numberOfQuestions",actualNumberOfQuestions);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+    }
+
+    @Override
+    public void getDataFromIntent() {
+        intent = getIntent();
+
+        quizzesSelected = (ArrayList<Integer>) intent.getSerializableExtra("SelectedItemsList");
+
+        for(int i = 0; i < quizzesSelected.size(); i++){
+            numberOfQuestions += dbHelper.getQuizzes().get(quizzesSelected.get(i)).getQuestions().size();
+        }
+    }
+
+    @Override
+    public void setView() {
+        getDataFromIntent();
+        STARTButton = (Button)findViewById(R.id.ok_button_game_start);
+        CANCELButton = (Button)findViewById(R.id.cancel_button_game_start);
+        enterNumberOfQuestions = (EditText)findViewById(R.id.enter_number_of_questions);
+        enterNumberOfQuestions.setHint("Enter number of questions. Max " + numberOfQuestions);
+    }
+
+    public void onLinearLayoutClick(View view) {
+        KeyboardSettingsClass.closeKeyboard(this);
     }
 }

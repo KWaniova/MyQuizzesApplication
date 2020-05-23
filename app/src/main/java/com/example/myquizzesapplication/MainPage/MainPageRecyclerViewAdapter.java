@@ -76,7 +76,7 @@ public class MainPageRecyclerViewAdapter extends RecyclerView.Adapter<MainPageRe
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 System.out.println("quizzes size: " + dbHelper.getQuizzes().size());
-                                dbHelper.removeQuiz(itemToDelete);
+                                dbHelper.deleteQuiz(itemToDelete);
                                 notifyDataSetChanged();
                             }
                         })
