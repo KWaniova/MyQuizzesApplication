@@ -85,6 +85,7 @@ public class QuestionEditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_editor);
         setView();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         OKButton.setOnClickListener(new View.OnClickListener() {
             @Override

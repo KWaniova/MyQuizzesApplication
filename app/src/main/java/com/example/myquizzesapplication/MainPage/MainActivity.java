@@ -1,4 +1,4 @@
-package com.example.myquizzesapplication;
+package com.example.myquizzesapplication.MainPage;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.example.myquizzesapplication.DBHelper.DBHelper;
 import com.example.myquizzesapplication.Game.SelectionQuizzesToGameActivity;
 import com.example.myquizzesapplication.QuizFolder.TypeQuizNameActivity;
+import com.example.myquizzesapplication.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 

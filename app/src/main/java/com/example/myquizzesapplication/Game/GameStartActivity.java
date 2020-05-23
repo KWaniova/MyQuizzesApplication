@@ -33,6 +33,7 @@ public class GameStartActivity extends AppCompatActivity {
         CANCELButton = (Button)findViewById(R.id.cancel_button_game_start);
         enterNumberOfQuestions = (EditText)findViewById(R.id.enter_number_of_questions);
         setEnterNumberOfQuestionsOnClick();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         CANCELButton.setOnClickListener(new View.OnClickListener() {
             @Override

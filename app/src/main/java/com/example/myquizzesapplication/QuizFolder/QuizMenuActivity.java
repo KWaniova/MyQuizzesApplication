@@ -18,18 +18,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.example.myquizzesapplication.DBHelper.DBHelper;
-import com.example.myquizzesapplication.FileHelper;
 import com.example.myquizzesapplication.Game.GameStartActivity;
 import com.example.myquizzesapplication.Question.QuestionsViewActivity;
 import com.example.myquizzesapplication.R;
 import com.example.myquizzesapplication.Statistic.StatisticViewActivity;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-
-import static com.example.myquizzesapplication.Question.QuestionsViewActivity.PICK_FILE;
 
 public class QuizMenuActivity extends AppCompatActivity {
 
@@ -55,6 +49,7 @@ public class QuizMenuActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.edit_quiz_name_menu_item){
             //edytowanie nazwy quizu
             Intent intent = new Intent(getApplicationContext(), TypeQuizNameActivity.class);
+            intent.putExtra("QuizPosition",quizPosition);
             startActivityForResult(intent,1);
             return true;
         }
@@ -102,6 +97,7 @@ public class QuizMenuActivity extends AppCompatActivity {
                 if((getContentResolver().getType(uri)).equals("text/plain")){
                     intent = new Intent(QuizMenuActivity.this,AddQuestionsFromFileActivity.class);
                     intent.putExtra("UriData",uri.toString());
+                    intent.putExtra("QuizPosition",quizPosition);
                     startActivity(intent);
                 }else{
                     Toast.makeText(this, "Wrong data type selected.", Toast.LENGTH_LONG).show();
@@ -149,6 +145,7 @@ public class QuizMenuActivity extends AppCompatActivity {
         showStatistic = (CardView)findViewById(R.id.show_quiz_statistic_card_view);
         startGame = (CardView)findViewById(R.id.start_quiz_card_view);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setQuiz();//intent and setting quiz obj, setting name and quantity of questions in onResume()
 
 

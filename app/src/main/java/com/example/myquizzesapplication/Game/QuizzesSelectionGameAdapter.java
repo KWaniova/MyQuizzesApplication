@@ -13,7 +13,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myquizzesapplication.DBHelper.DBHelper;
-import com.example.myquizzesapplication.MainPageRecyclerViewAdapter;
 import com.example.myquizzesapplication.QuizFolder.Quiz;
 import com.example.myquizzesapplication.R;
 

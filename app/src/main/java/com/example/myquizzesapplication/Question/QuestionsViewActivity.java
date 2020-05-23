@@ -60,6 +60,7 @@ public class QuestionsViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions_view);
 
+
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.questions_recycle_view);
         setQuestions();
 

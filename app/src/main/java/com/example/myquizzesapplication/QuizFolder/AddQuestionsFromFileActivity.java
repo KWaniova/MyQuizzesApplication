@@ -9,24 +9,43 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
+import com.example.myquizzesapplication.DBHelper.DBHelper;
+import com.example.myquizzesapplication.FileHelper.FileHelper;
+import com.example.myquizzesapplication.Question.QuestionFromFileFormat;
 import com.example.myquizzesapplication.R;
 
 public class AddQuestionsFromFileActivity extends AppCompatActivity {
 
-    EditText TRUEAnswerFormat, FALSEAnswerFormat,separatorFormat;
+    EditText TRUEAnswerFormat, FALSEAnswerFormat;
+    RadioButton TabRadioButton, NewLineRadioButton;
+    Button ADDButton, CANCELButton;
     Uri uri;
+    QuestionFromFileFormat questionFromFileFormat;
+    DBHelper dbHelper = DBHelper.getInstance(this);
+    int quizPosition;
 
+    public void initialize(){
+        TRUEAnswerFormat = findViewById(R.id.enter_true_answer_format);
+        FALSEAnswerFormat = findViewById(R.id.enter_false_answer_format);
+        TabRadioButton = findViewById(R.id.tabulator_radio_button);
+        NewLineRadioButton = findViewById(R.id.newLine_radio_button);
+        ADDButton = findViewById(R.id.add_button_from_text_file);
+        CANCELButton = findViewById(R.id.cancel_button_from_text_file);
+        questionFromFileFormat = new QuestionFromFileFormat();
+        TabRadioButton.setChecked(true);
+        ADDButton.setEnabled(false);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_questions_from_file);
-        TRUEAnswerFormat = findViewById(R.id.enter_true_answer_format);
-        FALSEAnswerFormat = findViewById(R.id.enter_false_answer_format);
-        separatorFormat = findViewById(R.id.enter_separator_format);
+        initialize();
         getDataFromIntent();
-
 
         TRUEAnswerFormat.addTextChangedListener(new TextWatcher() {
             @Override
@@ -36,7 +55,11 @@ public class AddQuestionsFromFileActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                questionFromFileFormat.setTrueAnswerFormat(TRUEAnswerFormat.getText().toString().toLowerCase());
+                if(questionFromFileFormat.getTrueAnswerFormat().equals("") && questionFromFileFormat.getFalseAnswerFormat().equals("")){
+                    ADDButton.setEnabled(false);
+                }else
+                    ADDButton.setEnabled(true);
             }
 
             @Override
@@ -54,7 +77,11 @@ public class AddQuestionsFromFileActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                questionFromFileFormat.setFalseAnswerFormat(FALSEAnswerFormat.getText().toString().toLowerCase());
+                if(questionFromFileFormat.getTrueAnswerFormat().equals("") && questionFromFileFormat.getFalseAnswerFormat().equals("")){
+                    ADDButton.setEnabled(false);
+                }else
+                    ADDButton.setEnabled(true);
             }
 
             @Override
@@ -63,27 +90,28 @@ public class AddQuestionsFromFileActivity extends AppCompatActivity {
             }
         });
 
-        separatorFormat.addTextChangedListener(new TextWatcher() {
+        CANCELButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+            public void onClick(View v) {
+                finish();
             }
         });
+
+        ADDButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //set questions from file in database
+                getDataFromFile();
+                //finish
+                finish();
+            }
+        });
+
     }
 
     public void getDataFromIntent(){
         uri = Uri.parse(getIntent().getExtras().getString("UriData"));
-
+        quizPosition = getIntent().getIntExtra("QuizPosition",-1);
     }
     private void closeKeyboard(){
         View view = this.getCurrentFocus();
@@ -95,5 +123,42 @@ public class AddQuestionsFromFileActivity extends AppCompatActivity {
 
     public void onLinearLayoutClick(View view) {
         closeKeyboard();
+    }
+
+    public void radioButtonOnClick(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+        String str="";
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.tabulator_radio_button:
+                if(checked){
+                    str = "Tabulator selected";
+                    TabRadioButton.setChecked(true);
+                    NewLineRadioButton.setChecked(false);
+                    questionFromFileFormat.setSeparatorFormat("TAB");
+                }
+                break;
+            case R.id.newLine_radio_button:
+                if(checked){
+                    str = "New line selected";
+                    TabRadioButton.setChecked(false);
+                    NewLineRadioButton.setChecked(true);
+                    questionFromFileFormat.setSeparatorFormat("NEWLINE");
+                }
+                break;
+        }
+        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+    }
+
+    public void getDataFromFile(){
+        String textFromFile = FileHelper.readTextFile(uri,this);
+        String[] separatedTextFromFile = textFromFile.split("\t");
+        boolean rightAnswer;
+        for(int i = 0 ;i<separatedTextFromFile.length;i+=2){
+            if(separatedTextFromFile[i+1].toLowerCase().equals(questionFromFileFormat.getTrueAnswerFormat()))
+                rightAnswer = true;
+            else rightAnswer = false;
+            dbHelper.addQuestion(separatedTextFromFile[i],rightAnswer,quizPosition);
+        }
     }
 }

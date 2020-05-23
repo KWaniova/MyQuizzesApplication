@@ -1,4 +1,4 @@
-package com.example.myquizzesapplication;
+package com.example.myquizzesapplication.FileHelper;
 
 import android.content.Context;
 import android.net.Uri;
@@ -17,6 +17,7 @@ public class FileHelper {
             String line = "";
 
             while ((line = reader.readLine()) != null) {
+                line +="\t";
                 builder.append(line);
                 System.out.println(line);
             }

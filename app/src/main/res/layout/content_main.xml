@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:padding="8dp"
-    tools:context=".MainActivity"
+    tools:context=".MainPage.MainActivity"
     android:weightSum="8"
     android:orientation="vertical">
 

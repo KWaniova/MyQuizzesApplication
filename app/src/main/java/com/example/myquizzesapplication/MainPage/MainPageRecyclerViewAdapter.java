@@ -1,4 +1,4 @@
-package com.example.myquizzesapplication;
+package com.example.myquizzesapplication.MainPage;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myquizzesapplication.DBHelper.DBHelper;
 import com.example.myquizzesapplication.QuizFolder.Quiz;
 import com.example.myquizzesapplication.QuizFolder.QuizMenuActivity;
+import com.example.myquizzesapplication.R;
 
 import java.util.List;
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.myquizzesapplication.Question.Question;
 import com.example.myquizzesapplication.QuizFolder.Quiz;
@@ -12,29 +13,27 @@ import com.example.myquizzesapplication.QuizFolder.Quiz;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DBHelper extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper implements DBHelperInterface {
 
     private static final String DB_NAME = "QuizzesDB.db";
-    private static final String TABLE_NAME = "Quizzes";
-
+    private static final String TABLE_NAME_QUIZZES = "Quizzes";
+    private static final String TABLE_NAME_QUESTIONS = "Questions";
     private static final int DB_VER = 1;
-    private Context context;
+
     private SQLiteDatabase db;
     private List<Quiz> quizzes;
     private static DBHelper instance = null;
 
-     final String INSERT_INTO_QUIZZES = "INSERT INTO Quizzes (QuizID,QuizName) VALUES ";
-     final String INSERT_INTO_QUESTIONS = "INSERT INTO Questions (QuizID,QuestionContent,RightAnswer) VALUES ";
-
-    public int getNumberOfQuizzes() {
-        return quizzes.size();
-    }
+    final String INSERT_INTO_QUIZZES = "INSERT INTO Quizzes (QuizName) VALUES ";
+    final String INSERT_INTO_QUESTIONS = "INSERT INTO Questions (QuizID,QuestionContent,RightAnswer) VALUES ";
 
     public List<Quiz> getQuizzes() {
         return quizzes;
     }
 
+
     public static synchronized DBHelper getInstance(Context context){
+        //creating singleton
         if(instance == null){
             instance = new DBHelper(context);
         }
@@ -43,26 +42,38 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private DBHelper(Context context) {
         super(context, DB_NAME,null, DB_VER);
-        this.context = context;
         db = this.getWritableDatabase();
-        System.out.println("Creating");
+        Log.i("Creating database: ", db.toString(),new Exception());
         onCreate(db);
     }
 
-    public List<Quiz> getAllQuizzes(){
+    @Override
+    public void onCreate(SQLiteDatabase db) {//Creating and filling tables
+        try{
+            //db.execSQL("DROP TABLE Quizzes");
+            //db.execSQL("DROP TABLE Questions");
+            db.execSQL("CREATE TABLE IF NOT EXISTS Quizzes (QuizID INTEGER PRIMARY KEY AUTOINCREMENT,QuizName VARCHAR)");
+            db.execSQL("CREATE TABLE IF NOT EXISTS Questions (QuizID int, QuestionContent VARCHAR, RightAnswer TEXT NOT NULL CHECK( RightAnswer IN ('TRUE','FALSE')));");
+            getAllQuizzes();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private List<Quiz> getAllQuizzes(){
         quizzes = new ArrayList<>();
         try{
-            System.out.println("getAllquizes");
-
-            Cursor cursor = db.rawQuery("SELECT * FROM Quizzes",null);
+            Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME_QUIZZES,null);
 
             if(cursor.moveToFirst()){
+
                 while(!cursor.isAfterLast()){
                     int QuizID = cursor.getInt(cursor.getColumnIndex("QuizID"));
                     Quiz quiz = new Quiz(QuizID,
                             cursor.getString(cursor.getColumnIndex("QuizName")));
-                    //creating QuestionsList
-                    addQuestions(quiz,QuizID);
+                    //creating questions list for quiz
+                    ArrayList<Question> questions = (ArrayList<Question>) getAllQuizQuestions(QuizID);
+                    quiz.setQuestions(questions);
                     quizzes.add(quiz);
                     cursor.moveToNext();
                 }
@@ -77,73 +88,51 @@ public class DBHelper extends SQLiteOpenHelper {
         return quizzes;
     }
 
-    public void addQuestions(Quiz quiz, int QuizID){
-        Cursor questionsCursor = db.rawQuery("SELECT * FROM Questions",null);
+    @Override
+    public List<Question> getAllQuizQuestions(int quizID) {
+        Cursor questionsCursor = db.rawQuery("SELECT * FROM " + TABLE_NAME_QUESTIONS + " WHERE QuizID = " + Integer.toString(quizID),null);
+
         List<Question> questions = new ArrayList<>();
+
         boolean rightAnswer;
-        String answer;
-        int quizID;
+
+        String selectedAnswer;
+
         if(questionsCursor.moveToFirst()){
             while(!questionsCursor.isAfterLast()){
-                quizID = questionsCursor.getInt(questionsCursor.getColumnIndex("QuizID"));
-                if(quizID==QuizID){
-                    answer = questionsCursor.getString(questionsCursor.getColumnIndex("RightAnswer"));
-                    if(answer.equals("TRUE")) rightAnswer = true;
-                    else rightAnswer=false;
-                    String content = questionsCursor.getString(questionsCursor.getColumnIndex("QuestionContent"));
-                    Question question = new Question(quizID, content, rightAnswer);
-                    questions.add(question);
-                }
+
+                selectedAnswer = questionsCursor.getString(questionsCursor.getColumnIndex("RightAnswer"));
+
+                rightAnswer = selectedAnswer.equals("TRUE") ? true : false;
+
+                String content = questionsCursor.getString(questionsCursor.getColumnIndex("QuestionContent"));
+                Question question = new Question(quizID, content, rightAnswer);
+                questions.add(question);
+
                 questionsCursor.moveToNext();
             }
         }
-        quiz.setQuestions(questions);
         questionsCursor.close();
+        return questions;
     }
-
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        try{
-            //db.execSQL("DROP TABLE Quizzes");
-            //db.execSQL("DROP TABLE Questions");
-
-            db.execSQL("CREATE TABLE IF NOT EXISTS Quizzes (QuizID INTEGER PRIMARY KEY AUTOINCREMENT,QuizName VARCHAR)");
-            db.execSQL("CREATE TABLE IF NOT EXISTS Questions (QuizID int, QuestionContent VARCHAR UNIQUE, RightAnswer TEXT NOT NULL CHECK( RightAnswer IN ('TRUE','FALSE')));");
-           // System.out.println("tables created");
-            /*addQuiz("MUSIC");
-            addQuiz("LOCATION");
-            addQuiz("Medit");
-            addQuiz("MEDICINE");
-            Question question = new Question(0,"Leonardo da vinci is singer",false);
-            addQuestion(question);
-            question = new Question(0,"Aguilerra''s song is Chandalier",false);
-            addQuestion(question);
-            question = new Question(1,"Argentina is in America",true);
-            addQuestion(question);
-            question = new Question(1,"Boliwia is in Africa",false);
-            addQuestion(question);
-            question = new Question(3,"Aspirine is a tablet",true);
-            addQuestion(question);*/
-
-            /*db.execSQL("INSERT INTO Quizzes (QuizID,QuizName) VALUES (1,'MUSIC')");
-            db.execSQL("INSERT INTO Quizzes (QuizID,QuizName) VALUES (2,'LOCATION')");
-            db.execSQL("INSERT INTO Quizzes (QuizID,QuizName) VALUES (3,'Medit')");
-            db.execSQL("INSERT INTO Quizzes (QuizID,QuizName) VALUES (4,'MEDICINE')");
-            db.execSQL("INSERT INTO Quizzes (QuizID,QuizName) VALUES (5,'new fifth')");
-            db.execSQL("INSERT INTO Questions (QuizID,QuestionContent,RightAnswer) VALUES (3,'The sun is yellow','TRUE')");
-            db.execSQL("INSERT INTO Questions (QuizID,QuestionContent,RightAnswer) VALUES (1,'Leonardo da vinci is singer','FALSE')");
-            db.execSQL("INSERT INTO Questions (QuizID,QuestionContent,RightAnswer) VALUES (1,'Aguilerra''s song is Chandalier','FALSE')");
-            db.execSQL("INSERT INTO Questions (QuizID,QuestionContent,RightAnswer) VALUES (2,'Argentina is in America','TRUE')");
-            db.execSQL("INSERT INTO Questions (QuizID,QuestionContent,RightAnswer) VALUES (2,'Boliwia is in Africa','FALSE')");
-            db.execSQL("INSERT INTO Questions (QuizID,QuestionContent,RightAnswer) VALUES (4,'Aspirine is a tablet','TRUE')");*/
-
-            //db.close();
-        }catch(Exception e){
-            System.out.println("EXEPTION: ");
-            e.printStackTrace();
-        }
+    public Quiz getQuiz(int quizPosition) {
+        return null;
     }
+
+    @Override
+    public void addQuiz() {
+
+    }
+
+    @Override
+    public void deleteQuiz(int quizPosition) {
+
+    }
+
+
+
 
     public void showQuizzesInDatabase(){
         Cursor c = db.rawQuery("SELECT * FROM Quizzes", null);
@@ -222,6 +211,28 @@ public class DBHelper extends SQLiteOpenHelper {
         quizzes.get(QuizPosition).setName(name);
         showQuizzesInDatabase();
         return true;
+    }
+
+
+
+    @Override
+    public void addQuestion(int quizPosition, Question question) {
+
+    }
+
+    @Override
+    public void deleteQuestion(int quizPosition, int questionPosition) {
+
+    }
+
+    @Override
+    public void editQuestionContent(int quizPosition, int questionPosition, String newContent) {
+
+    }
+
+    @Override
+    public void editQuestionAnswer(int quizPosition, int questionPosition, Boolean newAnswer) {
+
     }
 
     public boolean removeQuestion(int QuizPosition, int QuestionPosition){

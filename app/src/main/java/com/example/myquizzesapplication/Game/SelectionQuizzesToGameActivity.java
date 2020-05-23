@@ -25,7 +25,7 @@ public class SelectionQuizzesToGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection_quizzes_to_game);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view_quiz_selection);
         selectedTextView = (TextView)findViewById(R.id.quantity_od_selected_quizzes);
         OKButton = (Button)findViewById(R.id.ok_button_quizzes_selected);

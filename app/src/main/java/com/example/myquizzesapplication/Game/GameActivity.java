@@ -41,6 +41,7 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         setFromIntent();
         drawQuestions();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         questionContent = (TextView)findViewById(R.id.game_question_content);
         TRUEAnswer = (TextView)findViewById(R.id.game_true_answer);
         FALSEAnswer = (TextView)findViewById(R.id.game_false_answer);
