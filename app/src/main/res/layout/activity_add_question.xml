@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".Question.AddQuestionActivity"
     android:weightSum="8"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:onClick="onLinearLayoutClick">
 
     <LinearLayout
         android:layout_weight="6"

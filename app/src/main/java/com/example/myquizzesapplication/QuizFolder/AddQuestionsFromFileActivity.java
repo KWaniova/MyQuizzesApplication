@@ -22,6 +22,9 @@ import com.example.myquizzesapplication.Question.Question;
 import com.example.myquizzesapplication.Question.QuestionFromFileFormat;
 import com.example.myquizzesapplication.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddQuestionsFromFileActivity extends AppCompatActivity implements ActivityInterfaceWithButtons {
 
     EditText TRUEAnswerFormat, FALSEAnswerFormat;
@@ -31,6 +34,8 @@ public class AddQuestionsFromFileActivity extends AppCompatActivity implements A
     QuestionFromFileFormat questionFromFileFormat;
     DBHelper dbHelper = DBHelper.getInstance(this);
     int quizPosition;
+    ArrayList<Question> questions = new ArrayList<>();
+
 
     @Override
     public void setView(){
@@ -132,17 +137,33 @@ public class AddQuestionsFromFileActivity extends AppCompatActivity implements A
         Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
     }
 
-    public void getDataFromFile(){
+    public void addDataToDatabase(){
+        if(getDataFromFile() == true){
+            for(Question q: questions){
+                dbHelper.addQuestion(quizPosition,q);
+            }
+        }else
+            Toast.makeText(this.getApplicationContext(),"You entered wrong format of answer. Try again.",Toast.LENGTH_SHORT).show();
+
+        finish();
+    }
+
+    public boolean getDataFromFile(){
         String textFromFile = FileHelper.readTextFile(uri,this);
         String[] separatedTextFromFile = textFromFile.split("\t");
         boolean rightAnswer;
         for(int i = 0 ;i<separatedTextFromFile.length;i+=2){
-            if(separatedTextFromFile[i+1].toLowerCase().equals(questionFromFileFormat.getTrueAnswerFormat()))
-                rightAnswer = true;
-            else rightAnswer = false;
+
+            if(!(separatedTextFromFile[i+1].equals(questionFromFileFormat.getTrueAnswerFormat())) && !(separatedTextFromFile[i+1].equals(questionFromFileFormat.getFalseAnswerFormat()))){
+                return false;
+            }
+
+            rightAnswer = (separatedTextFromFile[i+1].toLowerCase().equals(questionFromFileFormat.getTrueAnswerFormat()) ? true:false);
+
             Question q = new Question(separatedTextFromFile[i],rightAnswer);
-            dbHelper.addQuestion(quizPosition,q);
+            questions.add(q);
         }
+        return true;
     }
 
     @Override
@@ -158,9 +179,7 @@ public class AddQuestionsFromFileActivity extends AppCompatActivity implements A
             @Override
             public void onClick(View v) {
                 //set questions from file in database
-                getDataFromFile();
-                //finish
-                finish();
+                addDataToDatabase();
             }
         });
     }

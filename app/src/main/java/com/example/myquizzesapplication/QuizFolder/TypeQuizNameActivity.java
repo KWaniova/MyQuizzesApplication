@@ -50,6 +50,7 @@ public class TypeQuizNameActivity extends AppCompatActivity implements ActivityI
         setContentView(R.layout.type_quiz_name);
         getDataFromIntent();
         setView();
+        buttonsSettings();
 
         enterQuizName.addTextChangedListener(new TextWatcher() {
             @Override

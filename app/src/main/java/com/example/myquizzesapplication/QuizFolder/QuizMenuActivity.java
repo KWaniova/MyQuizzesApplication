@@ -97,6 +97,7 @@ public class QuizMenuActivity extends AppCompatActivity implements ActivityInter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_menu);
 
+        setView();
         getDataFromIntent();//intent and setting quiz obj, setting name and quantity of questions in onResume()
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

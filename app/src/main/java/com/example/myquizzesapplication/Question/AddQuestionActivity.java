@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.myquizzesapplication.DBHelper.DBHelper;
 import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
+import com.example.myquizzesapplication.KeyboardSettingsClass;
 import com.example.myquizzesapplication.R;
 
 public class AddQuestionActivity extends AppCompatActivity implements ActivityInterfaceWithButtons {
@@ -116,5 +117,9 @@ public class AddQuestionActivity extends AppCompatActivity implements ActivityIn
         ADDButton =(Button)findViewById(R.id.add_new_question_button);
         questionContent = (EditText)findViewById(R.id.question_content_edit_text_view);
         CancelButton = (Button)findViewById(R.id.cancel_new_question_button);
+    }
+
+    public void onLinearLayoutClick(View view) {
+        KeyboardSettingsClass.closeKeyboard(this);
     }
 }

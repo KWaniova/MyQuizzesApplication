@@ -27,6 +27,9 @@ public class SelectionQuizzesToGameActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection_quizzes_to_game);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setView();
+        buttonsSettings();
+
         // use a linear layout manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
