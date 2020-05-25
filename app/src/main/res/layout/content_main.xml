@@ -11,7 +11,7 @@
     android:orientation="vertical">
 
     <Button
-        android:background="#009688"
+        android:background="#2BC5B6"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp"

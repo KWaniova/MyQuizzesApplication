@@ -16,6 +16,8 @@ public class Quiz {
         this.questions = new ArrayList<>();
     }
 
+    public Quiz(){}
+
     public int getIdQuiz() {
         return idQuiz;
     }

@@ -12,6 +12,7 @@ import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
 import com.example.myquizzesapplication.R;
 
 public class ResultViewActivity extends AppCompatActivity implements ActivityInterfaceWithButtons {
+    //This activity just shows game result
 
     Intent intent;
     Button OKResultButton;

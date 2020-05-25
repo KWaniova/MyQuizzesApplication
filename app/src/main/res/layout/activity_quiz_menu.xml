@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/bg"
     tools:context=".QuizFolder.QuizMenuActivity"
     android:weightSum="10">
 
     <RelativeLayout
+        android:background="#009688"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.5">
@@ -27,6 +27,7 @@
 
     </RelativeLayout>
     <LinearLayout
+        android:background="#009688"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -69,7 +70,6 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/show_questions_card_view"
             android:clickable="true"
-            android:onClick="show_questions_click"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_columnWeight="1"
@@ -79,7 +79,7 @@
             android:layout_marginRight="16dp"
             app:cardElevation="8dp"
             app:cardCornerRadius="8dp"
-            android:backgroundTint="#ACDAEA"
+            android:backgroundTint="#ACEAC0"
             >
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -102,7 +102,6 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/show_quiz_statistic_card_view"
             android:clickable="true"
-            android:onClick="show_statistic_click"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_columnWeight="1"
@@ -111,7 +110,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             app:cardElevation="8dp"
-            android:backgroundTint="#ACDAEA"
+            android:backgroundTint="#E8EAAC"
             app:cardCornerRadius="8dp"
             >
             <LinearLayout
@@ -134,7 +133,6 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/start_quiz_card_view"
             android:clickable="true"
-            android:onClick="start_game_click"
             android:backgroundTint="#ACDAEA"
             android:layout_width="0dp"
             android:layout_height="0dp"

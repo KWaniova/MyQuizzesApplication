@@ -9,28 +9,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".QuizFolder.AddQuestionsFromFileActivity"></activity>
+        <activity android:name=".DBHelper.EmptyActivity"></activity>
+        <activity android:name=".User.UserSettingsActivity" />
+        <activity android:name=".User.EnterUserNameActivity" />
+        <activity android:name=".QuizFolder.AddQuestionsFromFileActivity" />
         <activity android:name=".Game.ResultViewActivity" />
-        <activity android:name=".Game.GameActivity"
-            android:parentActivityName=".MainPage.MainActivity"
-            />
-        <activity android:name=".Game.SelectionQuizzesToGameActivity"
-            android:parentActivityName=".MainPage.MainActivity"
-            />
+        <activity
+            android:name=".Game.GameActivity"
+            android:parentActivityName=".MainPage.MainActivity" />
+        <activity
+            android:name=".Game.SelectionQuizzesToGameActivity"
+            android:parentActivityName=".MainPage.MainActivity" />
         <activity android:name=".Question.AddQuestionActivity" />
-        <activity android:name=".Question.QuestionEditorActivity"
-            android:parentActivityName=".Question.QuestionsViewActivity"
-            />
+        <activity
+            android:name=".Question.QuestionEditorActivity"
+            android:parentActivityName=".Question.QuestionsViewActivity" />
         <activity android:name=".QuizFolder.TypeQuizNameActivity" />
         <activity android:name=".Statistic.StatisticViewActivity" />
-        <activity android:name=".Game.GameStartActivity"
-            android:parentActivityName=".MainPage.MainActivity"
-            />
-        <activity android:name=".Question.QuestionsViewActivity"
-            />
-        <activity android:name=".QuizFolder.QuizMenuActivity"
-            android:parentActivityName=".MainPage.MainActivity"
-            />
+        <activity
+            android:name=".Game.GameStartActivity"
+            android:parentActivityName=".MainPage.MainActivity" />
+        <activity android:name=".Question.QuestionsViewActivity" />
+        <activity
+            android:name=".QuizFolder.QuizMenuActivity"
+            android:parentActivityName=".MainPage.MainActivity" />
         <activity
             android:name=".MainPage.MainActivity"
             android:label="@string/app_name"

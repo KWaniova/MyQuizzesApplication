@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 
 public class FileHelper {
 
-    public static String readTextFile(Uri uri, Context context){
+    public static String readTextFile(Uri uri, Context context){//reads text file and returns tab separated String
         BufferedReader reader = null;
         StringBuilder builder = new StringBuilder();
         try {
@@ -19,7 +19,6 @@ public class FileHelper {
             while ((line = reader.readLine()) != null) {
                 line +="\t";
                 builder.append(line);
-                System.out.println(line);
             }
 
         } catch (IOException e) {

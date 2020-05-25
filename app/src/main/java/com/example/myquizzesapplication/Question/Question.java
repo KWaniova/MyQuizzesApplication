@@ -1,7 +1,7 @@
 package com.example.myquizzesapplication.Question;
 
 
-public class Question{
+public class Question extends Object{
     private int quizID;
     private String content;
     private boolean rightAnswer;

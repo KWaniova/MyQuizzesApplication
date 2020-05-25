@@ -154,7 +154,7 @@ public class AddQuestionsFromFileActivity extends AppCompatActivity implements A
         boolean rightAnswer;
         for(int i = 0 ;i<separatedTextFromFile.length;i+=2){
 
-            if(!(separatedTextFromFile[i+1].equals(questionFromFileFormat.getTrueAnswerFormat())) && !(separatedTextFromFile[i+1].equals(questionFromFileFormat.getFalseAnswerFormat()))){
+            if(!(separatedTextFromFile[i+1].toLowerCase().equals(questionFromFileFormat.getTrueAnswerFormat())) && !(separatedTextFromFile[i+1].toLowerCase().equals(questionFromFileFormat.getFalseAnswerFormat()))){
                 return false;
             }
 

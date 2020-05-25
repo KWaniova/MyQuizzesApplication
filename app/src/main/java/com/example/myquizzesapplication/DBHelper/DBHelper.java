@@ -12,7 +12,11 @@ import com.example.myquizzesapplication.Question.Question;
 import com.example.myquizzesapplication.QuizFolder.Quiz;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class DBHelper extends SQLiteOpenHelper implements DBHelperInterface {
 
@@ -44,8 +48,10 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperInterface {
 
     private DBHelper(Context context) {
         super(context, DB_NAME,null, DB_VER);
-        db = this.getWritableDatabase();
-        Log.i("Creating database: ", db.toString(),new Exception());
+        db = context.openOrCreateDatabase("QuizzesDB",MODE_PRIVATE,null);
+        db = getWritableDatabase();
+        System.out.println("Creating database: " + db.toString());
+        //Log.i("Creating database: ", db.toString(),new Exception());
         onCreate(db);
     }
 
@@ -146,12 +152,12 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperInterface {
             db.execSQL("DELETE FROM Questions WHERE QuizID = " + QuizID);//deleting all questions
             quizzes.remove(quizPosition);
             //showQuizzesInDatabase();
-            Toast.makeText(context,quizName + " successfully removed!",Toast.LENGTH_SHORT);
+            Toast.makeText(context,quizName + " successfully removed!",Toast.LENGTH_SHORT).show();
             return true;
         }catch(Exception e){
             e.printStackTrace();
         }
-        Toast.makeText(context,quizName + " can't be removed!",Toast.LENGTH_SHORT);
+        Toast.makeText(context,quizName + " can't be removed!",Toast.LENGTH_SHORT).show();
         return false;
     }
 
@@ -229,7 +235,7 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperInterface {
                 int quizID = quizzes.get(quizPosition).getIdQuiz();
                 String answer = (newAnswer == true ? "TRUE" : "FALSE");
                 String questionContent = quizzes.get(quizPosition).getQuestions().get(questionPosition).getContent();
-                db.execSQL("UPDATE Quizzes SET RightAnswer='" +answer + "'  WHERE QuizID = " + quizID + " AND QuestionContent ='" +  questionContent + "'");
+                db.execSQL("UPDATE Questions SET RightAnswer='" +answer + "'  WHERE QuizID = " + quizID + " AND QuestionContent LIKE '" +  questionContent + "'");
                 quizzes.get(quizPosition).getQuestions().get(questionPosition).setRightAnswer(newAnswer);
             }
             return true;
@@ -286,6 +292,12 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperInterface {
         }
     }
 
-
+    public int getNumberOfQuestions(){
+        int numberOfQuestions = 0;
+        for(int i=0;i<quizzes.size();i++){
+            numberOfQuestions +=quizzes.get(i).getQuestions().size();
+        }
+        return numberOfQuestions;
+    }
 }
 

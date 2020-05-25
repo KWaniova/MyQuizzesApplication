@@ -5,8 +5,12 @@ import com.example.myquizzesapplication.Question.Question;
 import java.util.List;
 
 public interface GameActivityInterface {
-    List<Question> drawQuestions();
-    void showEndResult();
     void startGame();
+    List<Question> drawQuestions();
+    //during game
+    void showNextQuestion();
     void showResultOfQuestion();
+
+    //ate the end of the game
+    void showEndResult();
 }

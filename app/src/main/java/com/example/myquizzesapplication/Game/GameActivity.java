@@ -9,35 +9,33 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.myquizzesapplication.Helpers.ListRandomizer;
 import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
 import com.example.myquizzesapplication.DBHelper.DBHelper;
 import com.example.myquizzesapplication.Question.Question;
-import com.example.myquizzesapplication.QuizFolder.Quiz;
 import com.example.myquizzesapplication.R;
-import com.example.myquizzesapplication.Result;
+import com.example.myquizzesapplication.User.UserStatisticAdapter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
-public class GameActivity extends AppCompatActivity implements ActivityInterfaceWithButtons, GameActivityInterface {
+public class GameActivity extends AppCompatActivity implements ActivityInterfaceWithButtons,GameActivityInterface {
+    //przebieg gry
 
+    //data from intent
     private int quantityOfQuestions; //how many questions will be in the game
+    List<Question> allQuestions; // quizzes list to game
 
-    List<Quiz> quizzes = new ArrayList<>(); // quizzes list to game
-    ArrayList<Question> questions;
-    Result result = new Result();
 
     Intent intent;
     DBHelper dbHelper = DBHelper.getInstance(this);
     TextView questionContent, TRUEAnswer, FALSEAnswer,resultTextView;
     Button OK_NEXTButton;
+    Game game;
 
-    //Caunting variables to game
-    int answeredQuestions = 0;
-    int rightAnswers=0, wrongAnswers=0;
+
 
     boolean TRUEselected = false, FALSEselected = false;
 
@@ -45,13 +43,12 @@ public class GameActivity extends AppCompatActivity implements ActivityInterface
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        //settings
         getDataFromIntent();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setView();
         buttonsSettings();
-
-        //drawQuestions for the game
-        drawQuestions();
         //start game
         startGame();
     }
@@ -61,9 +58,13 @@ public class GameActivity extends AppCompatActivity implements ActivityInterface
         intent = getIntent();
         //list of selected quizzes
         ArrayList<Integer> quizzesSelected = (ArrayList<Integer>) intent.getSerializableExtra("SelectedItemsList");
+
+        Set<Question> set = new HashSet<>();//to get all questions from selected quizzes
         for(int i=0;i<quizzesSelected.size();i++){
-            quizzes.add(dbHelper.getQuizzes().get(quizzesSelected.get(i)));
+            set.addAll(dbHelper.getQuizzes().get(quizzesSelected.get(i)).getQuestions());
         }
+
+        allQuestions = new ArrayList<>(set);
 
         quantityOfQuestions = intent.getIntExtra("numberOfQuestions",-1);
         if(quantityOfQuestions == -1) finish();
@@ -87,16 +88,16 @@ public class GameActivity extends AppCompatActivity implements ActivityInterface
             @Override
             public void onClick(View v) {
                 TRUEselected = !TRUEselected;
+                //change background color
                 TRUEAnswer.setBackgroundColor(TRUEselected ? Color.CYAN : Color.WHITE);
-                if(FALSEselected==true && TRUEselected==true){
+
+                //if true is selected false can't be selected too
+                //user can chose just one answer
+                if(TRUEselected == true){
                     FALSEAnswer.setBackgroundColor(Color.WHITE);
-                    FALSEselected = !FALSEselected;
+                    FALSEselected = false;
                 }
-                if(TRUEselected == false && FALSEselected==false && OK_NEXTButton.getText().equals("OK")){
-                    OK_NEXTButton.setEnabled(false);
-                }else{
-                    OK_NEXTButton.setEnabled(true);
-                }
+                OK_NEXTButtonEnabled();
             }
         });
 
@@ -105,15 +106,14 @@ public class GameActivity extends AppCompatActivity implements ActivityInterface
             public void onClick(View v) {
                 FALSEselected = !FALSEselected;
                 FALSEAnswer.setBackgroundColor(FALSEselected ? Color.CYAN : Color.WHITE);
-                if(TRUEselected==true && FALSEselected==true){
+
+                //if false is selected true can't be selected too
+                //user can chose just one answer
+                if(FALSEselected == true){
                     TRUEAnswer.setBackgroundColor(Color.WHITE);
-                    TRUEselected = !TRUEselected;
+                    TRUEselected = false;
                 }
-                if(TRUEselected == false && FALSEselected==false && OK_NEXTButton.getText().equals("OK")){
-                    OK_NEXTButton.setEnabled(false);
-                }else{
-                    OK_NEXTButton.setEnabled(true);
-                }
+                OK_NEXTButtonEnabled();
             }
         });
 
@@ -121,18 +121,17 @@ public class GameActivity extends AppCompatActivity implements ActivityInterface
             @Override
             public void onClick(View v) {
                 if(OK_NEXTButton.getText().equals("OK")){
+                    //after OK is pressed - show result
                     showResultOfQuestion();
                     OK_NEXTButton.setText("NEXT");
-                    if(answeredQuestions == quantityOfQuestions){
+                    if(game.getAnsweredQuestions() == game.getQuestions().size()){
                         OK_NEXTButton.setText("FINISH");
                     }
                 }
                 else if(OK_NEXTButton.getText().equals("NEXT")){
-                    nextQuestion();
-                    OK_NEXTButton.setText("OK");
-                    OK_NEXTButton.setEnabled(false);
-
-                }else {
+                    showNextQuestion();
+                }else{//text FINISH
+                    UserStatisticAdapter.SetUserStatisticPreferencesAfterGameOver(game.getResult(),getApplicationContext(),"userStatistic");
                     showEndResult();
                 }
             }
@@ -140,70 +139,64 @@ public class GameActivity extends AppCompatActivity implements ActivityInterface
 
     }
 
+    //when no answer is selected user can't press ok button
+    private void OK_NEXTButtonEnabled(){
+        if(TRUEselected == false && FALSEselected==false && OK_NEXTButton.getText().equals("OK")){
+            OK_NEXTButton.setEnabled(false);
+        }else{
+            OK_NEXTButton.setEnabled(true);
+        }
+    }
+
+    @Override
+    public void startGame(){
+        game = new Game(drawQuestions());
+        showNextQuestion();
+    }
+
+    //clears activity view
+    //after that user chooses true or false answer and presses ok button
+    @Override
+    public void showNextQuestion(){
+        //if I want to change format of new question view I go to NextQuestionFormatter
+        NextQuestionFormatter.nextTrueFalseQuestion(TRUEAnswer,FALSEAnswer,
+                questionContent,resultTextView,
+                game.getQuestions().get(game.getAnsweredQuestions()).getContent());
+        NextQuestionFormatter.newQuestionOKButton(OK_NEXTButton);
+        TRUEselected = false;
+        FALSEselected = false;
+    }
+
     @Override
     public void showResultOfQuestion(){
         boolean answerSelected = (TRUEselected ? true:false);
-        if(questions.get(answeredQuestions).isRightAnswer()==answerSelected){
-            resultTextView.setText("Correct!");
-            rightAnswers++;
+
+        if(game.getQuestions().get(game.getAnsweredQuestions()).isRightAnswer()==answerSelected){
+            ShowResultQuestion.showCorrectResult(resultTextView);
+            game.incrementRightAnswers(); //increment right answers
         }else{
-            resultTextView.setText("Wrong!");
-            wrongAnswers++;
+            ShowResultQuestion.showWrongResult(resultTextView);
+            game.incrementWrongAnswers(); //increment wrong answers
         }
-        answeredQuestions++;
-    }
-    public void nextQuestion(){
-        questionContent.setText(questions.get(answeredQuestions).getContent());
-        TRUEAnswer.setBackgroundColor(Color.WHITE);
-        TRUEselected = false;
-        FALSEAnswer.setBackgroundColor(Color.WHITE);
-        FALSEselected = false;
-        resultTextView.setText("");
-    }
-
-    public void showEndResult(){
-        result.setGetQuantityOfRightAnswers(rightAnswers);
-        result.setGetQuantityOfWrongAnswers(wrongAnswers);
-        intent = new Intent(GameActivity.this,ResultViewActivity.class);
-        intent.putExtra("RightAnswers",rightAnswers);
-        intent.putExtra("WrongAnswers",wrongAnswers);
-        intent.putExtra("numberOfQuestions",quantityOfQuestions);
-        startActivity(intent);
-        finish();
-    }
-
-    @Override
-    public void startGame() {
-        result.setQuantityOfQuestions(quantityOfQuestions);
-        questions = (ArrayList<Question>) drawQuestions();// questions list to game
-        nextQuestion();
+        game.incrementAnsweredQuestions(); // increment answered questions
     }
 
     @Override
     public List<Question> drawQuestions(){
-        ArrayList<Question> questions = new ArrayList<>();
-        Set<Question> set = new HashSet<>();
-        for(int i =0;i<quizzes.size();i++){
-            set.addAll(quizzes.get(i).getQuestions());
-        }
-        ArrayList<Question> allQuestions = new ArrayList<>(set);
-        for(int i = 0;i<allQuestions.size();i++){
-            System.out.println(allQuestions.get(i).getContent());
-        }
-
-        Random random = new Random();
-        int randomValue;
-
-        for(int i =quantityOfQuestions-1;i>=0;i--){
-            randomValue = random.nextInt(allQuestions.size());
-            System.out.println(randomValue);
-            questions.add(allQuestions.get(randomValue));
-            allQuestions.remove(randomValue);
-        }
-
-        for(int i=0;i<questions.size();i++)
-            System.out.println(questions.get(i).getContent());
-
+        List<Question> questions;
+        //drawing random questions from list of all questions
+        questions = ListRandomizer.drawRandomList(allQuestions,quantityOfQuestions);
         return questions;
+    }
+
+    @Override
+    public void showEndResult(){
+        //Go to another activity at the end of the game
+        intent = new Intent(GameActivity.this,ResultViewActivity.class);
+        intent.putExtra("RightAnswers",game.getResult().getGetQuantityOfRightAnswers());
+        intent.putExtra("WrongAnswers",game.getResult().getGetQuantityOfWrongAnswers());
+        intent.putExtra("numberOfQuestions",quantityOfQuestions);
+        startActivity(intent);
+        finish();
     }
 }

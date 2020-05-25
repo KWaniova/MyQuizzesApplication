@@ -4,6 +4,76 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Statistic.StatisticViewActivity">
+    tools:context=".Statistic.StatisticViewActivity"
+    android:orientation="vertical"
+    android:weightSum="10">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Statistic"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:background="#009688"
+        android:textStyle="bold"
+        android:textColor="#F7F6FA"/>
+
+    <TextView
+        android:id="@+id/quantity_of_all_games"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Quantity of all games:"
+        android:textSize="20dp"
+        android:gravity="center_vertical"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/quantity_of_all_questions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Quantity of questions in DB:"
+        android:textSize="20dp"
+        android:gravity="center_vertical"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/percentage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Percentage of success:"
+        android:textSize="20dp"
+        android:gravity="center_vertical"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/quantity_of_all_answered_questions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Quantity of all answered questions:"
+        android:textSize="20dp"
+        android:gravity="center_vertical"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/quantity_of_all_right_answers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Quantity of all right answers:"
+        android:textSize="20dp"
+        android:gravity="center_vertical"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/quantity_of_all_wrong_answers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Quantity of all wrong answers:"
+        android:textSize="20dp"
+        android:gravity="center_vertical"
+        android:textStyle="bold"/>
+
 
 </LinearLayout>
