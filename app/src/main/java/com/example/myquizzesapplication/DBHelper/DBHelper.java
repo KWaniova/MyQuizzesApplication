@@ -31,10 +31,8 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperInterface {
 
     final String INSERT_INTO_QUIZZES = "INSERT INTO Quizzes (QuizName) VALUES ";
     final String INSERT_INTO_QUESTIONS = "INSERT INTO Questions (QuizID,QuestionContent,RightAnswer) VALUES ";
+
     Context context;
-    public List<Quiz> getQuizzes() {
-        return quizzes;
-    }
 
 
     public static synchronized DBHelper getInstance(Context context){
@@ -50,16 +48,12 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperInterface {
         super(context, DB_NAME,null, DB_VER);
         db = context.openOrCreateDatabase("QuizzesDB",MODE_PRIVATE,null);
         db = getWritableDatabase();
-        System.out.println("Creating database: " + db.toString());
-        //Log.i("Creating database: ", db.toString(),new Exception());
         onCreate(db);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {//Creating and filling tables
         try{
-            //db.execSQL("DROP TABLE Quizzes");
-            //db.execSQL("DROP TABLE Questions");
             db.execSQL("CREATE TABLE IF NOT EXISTS Quizzes (QuizID INTEGER PRIMARY KEY AUTOINCREMENT,QuizName VARCHAR)");
             db.execSQL("CREATE TABLE IF NOT EXISTS Questions (QuizID int, QuestionContent VARCHAR, RightAnswer TEXT NOT NULL CHECK( RightAnswer IN ('TRUE','FALSE')));");
             getAllQuizzes();
@@ -68,6 +62,15 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperInterface {
         }
     }
 
+    public List<Quiz> getQuizzes() {
+        return quizzes;
+    }
+    private void dropTable(String tableName){
+        db.execSQL("DROP TABLE " + tableName);
+    }
+
+
+    //po stworzeniu objektu DBHelper pobiera quizy i pytania z bazy danych - tworzy listę quizzes
     public List<Quiz> getAllQuizzes(){
         quizzes = new ArrayList<>();
         try{
@@ -96,6 +99,7 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperInterface {
         return quizzes;
     }
 
+    //dla danego quizu tworzy listę pytań z bazy danych
     @Override
     public List<Question> getAllQuizQuestions(int quizID) {
         Cursor questionsCursor = db.rawQuery("SELECT * FROM " + TABLE_NAME_QUESTIONS + " WHERE QuizID = " + Integer.toString(quizID),null);
@@ -135,7 +139,6 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperInterface {
 
             Quiz quiz = new Quiz((int)insertID,name);
             quizzes.add(quiz);
-            showQuizzesInDatabase();
             return true;
         }catch(Exception e){
             e.printStackTrace();
@@ -245,53 +248,8 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperInterface {
         return false;
     }
 
-    public void showQuizzesInDatabase(){
-        Cursor c = db.rawQuery("SELECT * FROM Quizzes", null);
-        int contentIndex = c.getColumnIndex("QuizName");
-        int idindex = c.getColumnIndex("QuizID");
-        c.moveToFirst();
-        if(c!=null){
-            while(true){
-                System.out.println("Quiz " + c.getInt(idindex));
-                //Log.i("Name: ", c.getString(contentIndex));
-                if(c.moveToNext() == false) break;
-            }
-        }
-
-        c.close();
-    }
-
-    public void showQuestionsInDatabase(){
-        Cursor c = db.rawQuery("SELECT * FROM Questions", null);
-        int rightAnswer = c.getColumnIndex("RightAnswer");
-        int contentQuestion = c.getColumnIndex("QuestionContent");
-        c.moveToFirst();
-        if(c!=null){
-            while(true){
-                System.out.println("QuestionContent " + c.getString(contentQuestion) + " , " + "RightAnswer " + c.getString(rightAnswer));
-                //Log.i("Name: ", c.getString(contentIndex));
-                if(c.moveToNext() == false) break;
-            }
-        }
-
-        c.close();
-    }
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-    }
-
-    public  void showTablesInDatabase(){
-        Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
-
-        if (c.moveToFirst()) {
-            while ( !c.isAfterLast() ) {
-                System.out.println( "Table Name=> "+c.getString(0));
-                c.moveToNext();
-            }
-        }
-    }
-
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { }
     public int getNumberOfQuestions(){
         int numberOfQuestions = 0;
         for(int i=0;i<quizzes.size();i++){

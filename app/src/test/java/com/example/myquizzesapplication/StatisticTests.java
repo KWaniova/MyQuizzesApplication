@@ -34,12 +34,6 @@ public class StatisticTests {
         dbHelper = DBHelper.getInstance(context);
     }
 
-    /*@After
-    public void tearDown() throws Exception {
-        //use the instance created in setUp() function to close the database
-        dbHelper.close();
-    }*/
-
     @Test
     public void user_statistic_questions_number_after_adding_quiz(){
 
