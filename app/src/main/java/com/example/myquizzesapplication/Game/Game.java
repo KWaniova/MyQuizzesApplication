@@ -19,7 +19,6 @@ public class Game implements GameInterface{
     public Game() {
         this.questions = new ArrayList<>();
         result = new Result();
-        result.setQuantityOfQuestions(questions.size());
     }
 
 
@@ -55,5 +54,6 @@ public class Game implements GameInterface{
     public void drawQuestions(List<Question> allQuestions,int quantityOfQuestions){
         //drawing random questions from list of all questions
         questions = ListRandomizer.drawRandomList(allQuestions,quantityOfQuestions);
+        result.setQuantityOfQuestions(quantityOfQuestions);
     }
 }
