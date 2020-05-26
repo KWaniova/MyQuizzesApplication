@@ -88,8 +88,8 @@ public class QuestionEditorActivity extends AppCompatActivity implements Activit
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_editor);
-        getDataFromIntent();
         setView();
+        getDataFromIntent();
         buttonsSettings();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

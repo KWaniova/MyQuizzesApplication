@@ -24,7 +24,7 @@ public class AddQuestionActivity extends AppCompatActivity implements ActivityIn
     EditText questionContent;
     Intent intent;
     private int quizPosition;
-    String newQuestionContent;
+    String newQuestionContent = "";
     boolean questionAnswer = true;
     DBHelper dbHelper = DBHelper.getInstance(this);
 
@@ -39,13 +39,12 @@ public class AddQuestionActivity extends AppCompatActivity implements ActivityIn
         questionContent.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                ADDButton.setEnabled(false);
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 newQuestionContent = questionContent.getText().toString();
-                ADDButton.setEnabled(newQuestionContent.isEmpty());
+                ADDButton.setEnabled(!newQuestionContent.isEmpty());
             }
 
             @Override
@@ -115,6 +114,7 @@ public class AddQuestionActivity extends AppCompatActivity implements ActivityIn
         ADDButton =(Button)findViewById(R.id.add_new_question_button);
         questionContent = (EditText)findViewById(R.id.question_content_edit_text_view);
         CancelButton = (Button)findViewById(R.id.cancel_new_question_button);
+        ADDButton.setEnabled(false);
     }
 
     public void onLinearLayoutClick(View view) {

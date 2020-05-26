@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -31,7 +32,7 @@ public class StatisticTests {
 
     @Before
     public void setUp() throws Exception {
-        dbHelper = DBHelper.getInstance(context);
+        dbHelper  = DBHelper.getInstance(context);
     }
 
     @Test

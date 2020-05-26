@@ -52,10 +52,8 @@ public class Game implements GameInterface{
         result.incrementQuantityOfWrongAnswers();
     }
 
-    public List<Question> drawQuestions(List<Question> allQuestions,int quantityOfQuestions){
-        List<Question> questions;
+    public void drawQuestions(List<Question> allQuestions,int quantityOfQuestions){
         //drawing random questions from list of all questions
         questions = ListRandomizer.drawRandomList(allQuestions,quantityOfQuestions);
-        return questions;
     }
 }

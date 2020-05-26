@@ -33,8 +33,6 @@ public class DBHelper extends SQLiteOpenHelper implements DBHelperInterface {
     final String INSERT_INTO_QUESTIONS = "INSERT INTO Questions (QuizID,QuestionContent,RightAnswer) VALUES ";
 
     Context context;
-
-
     public static synchronized DBHelper getInstance(Context context){
         //creating singleton
         if(instance == null){

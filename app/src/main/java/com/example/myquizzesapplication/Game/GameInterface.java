@@ -22,5 +22,5 @@ public interface GameInterface {
 
      void incrementWrongAnswers();
 
-     List<Question> drawQuestions(List<Question> allQuestions,int quantityOfQuestions);
+     void drawQuestions(List<Question> allQuestions,int quantityOfQuestions);
 }
