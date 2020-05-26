@@ -2,23 +2,19 @@ package com.example.myquizzesapplication.QuizFolder;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.myquizzesapplication.DBHelper.DBHelper;
 import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
-import com.example.myquizzesapplication.KeyboardSettingsClass;
+import com.example.myquizzesapplication.Helpers.KeyboardSettingsClass;
 import com.example.myquizzesapplication.R;
-
-import org.w3c.dom.Text;
 
 public class TypeQuizNameActivity extends AppCompatActivity implements ActivityInterfaceWithButtons {
 

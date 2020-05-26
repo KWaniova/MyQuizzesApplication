@@ -1,4 +1,4 @@
-package com.example.myquizzesapplication.QuizFolder;
+package com.example.myquizzesapplication.AllMainActivities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,12 +18,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.example.myquizzesapplication.DBHelper.DBHelper;
-import com.example.myquizzesapplication.Game.GameStartActivity;
 import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
 import com.example.myquizzesapplication.Question.QuestionsViewActivity;
+import com.example.myquizzesapplication.QuizFolder.AddQuestionsFromFileActivity;
+import com.example.myquizzesapplication.QuizFolder.Quiz;
+import com.example.myquizzesapplication.QuizFolder.TypeQuizNameActivity;
 import com.example.myquizzesapplication.R;
-import com.example.myquizzesapplication.Statistic.StatisticViewActivity;
-import com.example.myquizzesapplication.User.User;
 
 import java.util.ArrayList;
 
@@ -122,7 +122,7 @@ public class QuizMenuActivity extends AppCompatActivity implements ActivityInter
                 //To another activity
                 Uri uri = data.getData();
                 if((getContentResolver().getType(uri)).equals("text/plain")){
-                    intent = new Intent(QuizMenuActivity.this,AddQuestionsFromFileActivity.class);
+                    intent = new Intent(QuizMenuActivity.this, AddQuestionsFromFileActivity.class);
                     intent.putExtra("UriData",uri.toString());
                     intent.putExtra("QuizPosition",quizPosition);
                     startActivity(intent);

@@ -6,15 +6,10 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.myquizzesapplication.DBHelper.DBHelper;
-import com.example.myquizzesapplication.Game.GameActivity;
-import com.example.myquizzesapplication.MainPage.MainActivity;
 import com.example.myquizzesapplication.Question.Question;
-import com.example.myquizzesapplication.QuizFolder.Quiz;
-import com.example.myquizzesapplication.QuizFolder.QuizMenuActivity;
 import com.example.myquizzesapplication.Statistic.Result;
 import com.example.myquizzesapplication.Statistic.UserStatistic;
 import com.example.myquizzesapplication.User.User;
-import com.example.myquizzesapplication.User.UserStatisticAdapter;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

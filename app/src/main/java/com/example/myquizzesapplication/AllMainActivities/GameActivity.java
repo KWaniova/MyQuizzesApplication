@@ -1,4 +1,4 @@
-package com.example.myquizzesapplication.Game;
+package com.example.myquizzesapplication.AllMainActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,20 +9,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.myquizzesapplication.Game.Game;
+import com.example.myquizzesapplication.Game.GameActivityInterface;
+import com.example.myquizzesapplication.Game.NextQuestionFormatter;
+import com.example.myquizzesapplication.Game.ResultViewActivity;
+import com.example.myquizzesapplication.Game.ShowResultQuestion;
 import com.example.myquizzesapplication.Helpers.ListRandomizer;
 import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
 import com.example.myquizzesapplication.DBHelper.DBHelper;
 import com.example.myquizzesapplication.Question.Question;
 import com.example.myquizzesapplication.R;
 import com.example.myquizzesapplication.User.User;
-import com.example.myquizzesapplication.User.UserStatisticAdapter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class GameActivity extends AppCompatActivity implements ActivityInterfaceWithButtons,GameActivityInterface {
+public class GameActivity extends AppCompatActivity implements ActivityInterfaceWithButtons, GameActivityInterface {
     //przebieg gry
 
     //data from intent
@@ -193,7 +197,7 @@ public class GameActivity extends AppCompatActivity implements ActivityInterface
     @Override
     public void showEndResult(){
         //Go to another activity at the end of the game
-        intent = new Intent(GameActivity.this,ResultViewActivity.class);
+        intent = new Intent(GameActivity.this, ResultViewActivity.class);
         intent.putExtra("RightAnswers",game.getResult().getGetQuantityOfRightAnswers());
         intent.putExtra("WrongAnswers",game.getResult().getGetQuantityOfWrongAnswers());
         intent.putExtra("numberOfQuestions",quantityOfQuestions);

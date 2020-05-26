@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".QuizFolder.QuizMenuActivity"
+    tools:context=".AllMainActivities.QuizMenuActivity"
     android:weightSum="10">
 
     <RelativeLayout

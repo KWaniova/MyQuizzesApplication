@@ -1,4 +1,4 @@
-package com.example.myquizzesapplication.Game;
+package com.example.myquizzesapplication.AllMainActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
 import com.example.myquizzesapplication.DBHelper.DBHelper;
-import com.example.myquizzesapplication.KeyboardSettingsClass;
+import com.example.myquizzesapplication.Helpers.KeyboardSettingsClass;
 import com.example.myquizzesapplication.R;
 
 import java.util.ArrayList;
@@ -83,7 +83,7 @@ public class GameStartActivity extends AppCompatActivity implements ActivityInte
             STARTButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(GameStartActivity.this,GameActivity.class);
+                    Intent intent = new Intent(GameStartActivity.this, GameActivity.class);
                     intent.putExtra("SelectedItemsList",quizzesSelected);
                     intent.putExtra("numberOfQuestions",actualNumberOfQuestions);
                     startActivity(intent);

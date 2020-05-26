@@ -9,7 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.myquizzesapplication.KeyboardSettingsClass;
+import com.example.myquizzesapplication.Helpers.KeyboardSettingsClass;
 import com.example.myquizzesapplication.R;
 
 public class EnterUserNameActivity extends AppCompatActivity {

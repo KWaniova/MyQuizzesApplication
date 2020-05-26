@@ -1,4 +1,4 @@
-package com.example.myquizzesapplication;
+package com.example.myquizzesapplication.Helpers;
 
 import android.app.Activity;
 import android.content.Context;

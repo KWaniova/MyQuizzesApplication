@@ -1,7 +1,6 @@
 package com.example.myquizzesapplication.Game;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.myquizzesapplication.AllMainActivities.GameStartActivity;
 import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
 import com.example.myquizzesapplication.R;
 
@@ -50,7 +50,7 @@ public class SelectionQuizzesToGameActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 ArrayList<Integer> selectedItems = adapter.getSelectedItemsList();
-                Intent intent = new Intent(SelectionQuizzesToGameActivity.this,GameStartActivity.class);
+                Intent intent = new Intent(SelectionQuizzesToGameActivity.this, GameStartActivity.class);
                 intent.putExtra("SelectedItemsList",selectedItems);
                 startActivity(intent);
                 finish();

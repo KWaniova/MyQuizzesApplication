@@ -1,18 +1,17 @@
-package com.example.myquizzesapplication.User;
+package com.example.myquizzesapplication.AllMainActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
 import com.example.myquizzesapplication.R;
-import com.example.myquizzesapplication.Statistic.StatisticViewActivity;
-import com.example.myquizzesapplication.Statistic.UserStatistic;
+import com.example.myquizzesapplication.User.EnterUserNameActivity;
+import com.example.myquizzesapplication.User.User;
 
 public class UserSettingsActivity extends AppCompatActivity implements ActivityInterfaceWithButtons{
 
@@ -44,7 +43,7 @@ public class UserSettingsActivity extends AppCompatActivity implements ActivityI
         editUserName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserSettingsActivity.this,EnterUserNameActivity.class);
+                Intent intent = new Intent(UserSettingsActivity.this, EnterUserNameActivity.class);
                 startActivity(intent);
             }
         });

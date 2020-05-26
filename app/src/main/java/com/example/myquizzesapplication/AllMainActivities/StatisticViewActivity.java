@@ -1,4 +1,4 @@
-package com.example.myquizzesapplication.Statistic;
+package com.example.myquizzesapplication.AllMainActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.myquizzesapplication.Interfaces.ActivityIntefaceFunctions;
 import com.example.myquizzesapplication.R;
+import com.example.myquizzesapplication.Statistic.UserStatistic;
 import com.example.myquizzesapplication.User.User;
 
 public class StatisticViewActivity extends AppCompatActivity implements ActivityIntefaceFunctions {

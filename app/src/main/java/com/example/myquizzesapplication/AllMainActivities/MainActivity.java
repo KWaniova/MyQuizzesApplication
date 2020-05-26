@@ -1,4 +1,4 @@
-package com.example.myquizzesapplication.MainPage;
+package com.example.myquizzesapplication.AllMainActivities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,12 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.example.myquizzesapplication.DBHelper.DBHelper;
+import com.example.myquizzesapplication.MainPage.MainPageRecyclerViewAdapter;
 import com.example.myquizzesapplication.User.EnterUserNameActivity;
 import com.example.myquizzesapplication.Game.SelectionQuizzesToGameActivity;
 import com.example.myquizzesapplication.QuizFolder.TypeQuizNameActivity;
 import com.example.myquizzesapplication.R;
 import com.example.myquizzesapplication.User.User;
-import com.example.myquizzesapplication.User.UserSettingsActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -28,8 +28,6 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-
-import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity {
 

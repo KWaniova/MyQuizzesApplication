@@ -2,13 +2,11 @@ package com.example.myquizzesapplication.QuizFolder;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -17,13 +15,12 @@ import android.widget.Toast;
 import com.example.myquizzesapplication.DBHelper.DBHelper;
 import com.example.myquizzesapplication.FileHelper.FileHelper;
 import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
-import com.example.myquizzesapplication.KeyboardSettingsClass;
+import com.example.myquizzesapplication.Helpers.KeyboardSettingsClass;
 import com.example.myquizzesapplication.Question.Question;
 import com.example.myquizzesapplication.Question.QuestionFromFileFormat;
 import com.example.myquizzesapplication.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AddQuestionsFromFileActivity extends AppCompatActivity implements ActivityInterfaceWithButtons {
 
