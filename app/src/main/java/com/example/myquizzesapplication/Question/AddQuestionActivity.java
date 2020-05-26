@@ -45,7 +45,7 @@ public class AddQuestionActivity extends AppCompatActivity implements ActivityIn
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 newQuestionContent = questionContent.getText().toString();
-                ADDButton.setEnabled(!newQuestionContent.isEmpty());
+                ADDButton.setEnabled(newQuestionContent.isEmpty());
             }
 
             @Override
