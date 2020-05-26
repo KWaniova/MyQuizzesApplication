@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
+        android:weightSum="2"
         android:background="#5CC1CA"
         android:orientation="vertical">
         <TextView
@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Select quizzes"
-            android:textSize="40dp"
+            android:textSize="40sp"
             android:gravity="center"/>
         <TextView
             android:layout_weight="1"
@@ -27,38 +27,40 @@
             android:layout_width="match_parent"
             android:text="Selected: X"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:gravity="center"/>
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_quiz_selection"
-        android:layout_weight="6"
+        android:layout_weight="6.5"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
         android:orientation="horizontal"
         android:weightSum="2">
 
         <Button
             android:layout_weight="1"
+            android:background="#EBEDAA"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="CANCEL"
             android:id="@+id/calncel_button_quizzes_selected"
             android:padding="20dp"
-            android:textSize="20dp"/>
+            android:textSize="20sp"/>
         <Button
             android:layout_weight="1"
+            android:background="#AAEDBA"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="OK"
             android:id="@+id/ok_button_quizzes_selected"
             android:padding="20dp"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:enabled="false"/>
     </LinearLayout>
 

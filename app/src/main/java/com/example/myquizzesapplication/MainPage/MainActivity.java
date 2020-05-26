@@ -48,10 +48,6 @@ public class MainActivity extends AppCompatActivity {
         return dbHelper;
     }
 
-    private void setUser(){
-        user = new User("userStatistic");
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +92,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void setUser(){
+        user = new User("user");
     }
 
     private void onFirstStart(){

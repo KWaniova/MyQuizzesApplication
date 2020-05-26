@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.example.myquizzesapplication.Statistic.Result;
 import com.example.myquizzesapplication.Statistic.UserStatistic;
 
+//getting data from shared preferences for that user
 public class UserStatisticAdapter {
 
     final static String getQuantityOfAllGamesKey = "getQuantityOfAllGamesKey";
@@ -30,16 +31,36 @@ public class UserStatisticAdapter {
         return getQuantityOfAnsweredQuestionsKey;
     }
 
-    public static void SetUserNamePreferences(String enteredUserName, Context context){
-        SharedPreferences preferences = context.getSharedPreferences("user",Context.MODE_PRIVATE);
+    public static int getGetQuantityOfAllGames(Context context,String preferencesName) {
+        SharedPreferences preferences = context.getSharedPreferences(preferencesName,Context.MODE_PRIVATE);
+        return preferences.getInt(getGetQuantityOfAllGamesKey(),0);
+    }
+
+    public static int getGetQuantityOfRightAnswers(Context context,String preferencesName) {
+        SharedPreferences preferences = context.getSharedPreferences(preferencesName,Context.MODE_PRIVATE);
+        return preferences.getInt(getGetQuantityOfRightAnswersKey(),0);
+    }
+
+    public static int getGetQuantityOfWrongAnswers(Context context,String preferencesName) {
+        SharedPreferences preferences = context.getSharedPreferences(preferencesName,Context.MODE_PRIVATE);
+        return preferences.getInt(getGetQuantityOfWrongAnswersKey(),0);
+    }
+
+    public static int getGetQuantityOfAnsweredQuestions(Context context,String preferencesName) {
+        SharedPreferences preferences = context.getSharedPreferences(preferencesName,Context.MODE_PRIVATE);
+        return preferences.getInt(getGetQuantityOfAnsweredQuestionsKey(),0);
+    }
+
+    public static void SetUserNamePreferences(String enteredUserName,String preferencesName,String userNameKey, Context context){
+        SharedPreferences preferences = context.getSharedPreferences(preferencesName,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("UserName",enteredUserName);
+        editor.putString(userNameKey,enteredUserName);
         editor.apply();
     }
 
-    public static String GetUserNamePreferences(Context context){
-        SharedPreferences preferences = context.getSharedPreferences("user",Context.MODE_PRIVATE);
-        return preferences.getString("UserName","new");
+    public static String GetUserNamePreferences(String preferencesName,String userNameKey,Context context){
+        SharedPreferences preferences = context.getSharedPreferences(preferencesName,Context.MODE_PRIVATE);
+        return preferences.getString(userNameKey,"new");
     }
 
     public static void SetUserStatisticPreferencesAfterGameOver(Result result,Context context,String preferencesName){
@@ -50,10 +71,10 @@ public class UserStatisticAdapter {
         int newQuantityOfGames = preferences.getInt(getGetQuantityOfAllGamesKey(),0) + 1;
 
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt(UserStatisticAdapter.getGetQuantityOfAnsweredQuestionsKey(),newQuantityOfAnsweredQuestions);
-        editor.putInt(UserStatisticAdapter.getGetQuantityOfRightAnswersKey(),newQuantityOfRightAnswers);
-        editor.putInt(UserStatisticAdapter.getGetQuantityOfWrongAnswersKey(),newQuantityOfWrongAnswers);
-        editor.putInt(UserStatisticAdapter.getGetQuantityOfAllGamesKey(),newQuantityOfGames);
+        editor.putInt(getGetQuantityOfAnsweredQuestionsKey(),newQuantityOfAnsweredQuestions);
+        editor.putInt(getGetQuantityOfRightAnswersKey(),newQuantityOfRightAnswers);
+        editor.putInt(getGetQuantityOfWrongAnswersKey(),newQuantityOfWrongAnswers);
+        editor.putInt(getGetQuantityOfAllGamesKey(),newQuantityOfGames);
         editor.apply();
     }
 

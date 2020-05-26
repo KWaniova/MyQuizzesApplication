@@ -99,7 +99,7 @@
             </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
+        <!--<androidx.cardview.widget.CardView
             android:id="@+id/show_quiz_statistic_card_view"
             android:clickable="true"
             android:layout_width="0dp"
@@ -129,11 +129,11 @@
                     android:textSize="30dp"
                     />
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>-->
         <androidx.cardview.widget.CardView
             android:id="@+id/start_quiz_card_view"
             android:clickable="true"
-            android:backgroundTint="#ACDAEA"
+            android:backgroundTint="#E8EAAC"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_columnWeight="1"

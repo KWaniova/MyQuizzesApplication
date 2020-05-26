@@ -45,7 +45,8 @@ public class EnterUserNameActivity extends AppCompatActivity {
 
     public void onOKClick(View view) {
         //I save in shared preferences user name which is not empty string.
-        UserStatisticAdapter.SetUserNamePreferences(enteredUserName,getApplicationContext());
+        User user = new User("user");
+        UserStatisticAdapter.SetUserNamePreferences(enteredUserName,user.getUserPreferencesName(),user.getUserNameKey(),getApplicationContext());
         finish();
     }
 

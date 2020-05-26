@@ -23,6 +23,7 @@ public class StatisticViewActivity extends AppCompatActivity implements Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistic_view);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getDataFromIntent();
         setView();
     }

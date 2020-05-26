@@ -23,6 +23,7 @@ import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
 import com.example.myquizzesapplication.Question.QuestionsViewActivity;
 import com.example.myquizzesapplication.R;
 import com.example.myquizzesapplication.Statistic.StatisticViewActivity;
+import com.example.myquizzesapplication.User.User;
 
 import java.util.ArrayList;
 
@@ -88,7 +89,6 @@ public class QuizMenuActivity extends AppCompatActivity implements ActivityInter
         quizName = (TextView)findViewById(R.id.quiz_menu_text_view);
         numberOfQuestions = (TextView)findViewById(R.id.quiz_menu_quantity_of_questions);
         showQuestions = (CardView)findViewById(R.id.show_questions_card_view);
-        showStatistic = (CardView)findViewById(R.id.show_quiz_statistic_card_view);
         startGame = (CardView)findViewById(R.id.start_quiz_card_view);
     }
 
@@ -164,15 +164,6 @@ public class QuizMenuActivity extends AppCompatActivity implements ActivityInter
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-            }
-        });
-
-        showStatistic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(QuizMenuActivity.this,"Clicked at show statistic" ,Toast.LENGTH_SHORT).show();
-                intent = new Intent(getApplicationContext(), StatisticViewActivity.class);
-                startActivity(intent);
             }
         });
 

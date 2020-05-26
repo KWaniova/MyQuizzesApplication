@@ -10,15 +10,6 @@
     android:weightSum="8"
     android:orientation="vertical">
 
-    <Button
-        android:background="#2BC5B6"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:text="START GAME"
-        android:textSize="30dp"
-        android:id="@+id/start_game_button"/>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -33,6 +24,14 @@
             android:layout_height="0dp"/>
     </ScrollView>
 
+    <Button
+        android:background="#E8EAAC"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="START GAME"
+        android:textSize="30dp"
+        android:id="@+id/start_game_button"/>
 
 
 </LinearLayout>

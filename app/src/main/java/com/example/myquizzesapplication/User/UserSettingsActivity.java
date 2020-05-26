@@ -24,6 +24,7 @@ public class UserSettingsActivity extends AppCompatActivity implements ActivityI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_settings);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getDataFromIntent();
         setView();
         buttonsSettings();
@@ -64,6 +65,7 @@ public class UserSettingsActivity extends AppCompatActivity implements ActivityI
     @Override
     protected void onResume() {
         super.onResume();
+        user = new User("user");
         userName.setText(user.getNick(getApplicationContext()));
     }
 }

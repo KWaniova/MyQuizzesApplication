@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".DBHelper.EmptyActivity"></activity>
-        <activity android:name=".User.UserSettingsActivity" />
+        <activity android:name=".User.UserSettingsActivity"
+            android:parentActivityName=".MainPage.MainActivity"/>
         <activity android:name=".User.EnterUserNameActivity" />
         <activity android:name=".QuizFolder.AddQuestionsFromFileActivity" />
         <activity android:name=".Game.ResultViewActivity" />
@@ -25,7 +26,8 @@
             android:name=".Question.QuestionEditorActivity"
             android:parentActivityName=".Question.QuestionsViewActivity" />
         <activity android:name=".QuizFolder.TypeQuizNameActivity" />
-        <activity android:name=".Statistic.StatisticViewActivity" />
+        <activity android:name=".Statistic.StatisticViewActivity"
+            android:parentActivityName=".User.UserSettingsActivity"/>
         <activity
             android:name=".Game.GameStartActivity"
             android:parentActivityName=".MainPage.MainActivity" />

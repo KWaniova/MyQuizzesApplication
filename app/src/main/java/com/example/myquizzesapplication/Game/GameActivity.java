@@ -14,6 +14,7 @@ import com.example.myquizzesapplication.Interfaces.ActivityInterfaceWithButtons;
 import com.example.myquizzesapplication.DBHelper.DBHelper;
 import com.example.myquizzesapplication.Question.Question;
 import com.example.myquizzesapplication.R;
+import com.example.myquizzesapplication.User.User;
 import com.example.myquizzesapplication.User.UserStatisticAdapter;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class GameActivity extends AppCompatActivity implements ActivityInterface
     //data from intent
     private int quantityOfQuestions; //how many questions will be in the game
     List<Question> allQuestions; // quizzes list to game
-
+    User user;
 
     Intent intent;
     DBHelper dbHelper = DBHelper.getInstance(this);
@@ -65,7 +66,7 @@ public class GameActivity extends AppCompatActivity implements ActivityInterface
         }
 
         allQuestions = new ArrayList<>(set);
-
+        user = new User("user");
         quantityOfQuestions = intent.getIntExtra("numberOfQuestions",-1);
         if(quantityOfQuestions == -1) finish();
 
@@ -131,7 +132,7 @@ public class GameActivity extends AppCompatActivity implements ActivityInterface
                 else if(OK_NEXTButton.getText().equals("NEXT")){
                     showNextQuestion();
                 }else{//text FINISH
-                    UserStatisticAdapter.SetUserStatisticPreferencesAfterGameOver(game.getResult(),getApplicationContext(),"userStatistic");
+                    user.updateUserStatistic(game.getResult(),getApplicationContext());
                     showEndResult();
                 }
             }
