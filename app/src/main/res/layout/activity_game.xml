@@ -63,6 +63,7 @@
         android:id="@+id/game_ok_next_button"
         android:layout_weight="0.5"
         android:layout_margin="10dp"
+        android:background="#EBEDAA"
         android:text="OK"
         android:textSize="40dp"
     />
