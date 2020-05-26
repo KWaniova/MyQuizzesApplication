@@ -33,12 +33,13 @@ public class GameActivity extends AppCompatActivity implements ActivityInterface
     private int quantityOfQuestions; //how many questions will be in the game
     List<Question> allQuestions; // quizzes list to game
     User user;
+    Game game;
 
     Intent intent;
     DBHelper dbHelper = DBHelper.getInstance(this);
+
     TextView questionContent, TRUEAnswer, FALSEAnswer,resultTextView;
     Button OK_NEXTButton;
-    Game game;
 
 
 
@@ -58,23 +59,6 @@ public class GameActivity extends AppCompatActivity implements ActivityInterface
         startGame();
     }
 
-    @Override
-    public void getDataFromIntent(){
-        intent = getIntent();
-        //list of selected quizzes
-        ArrayList<Integer> quizzesSelected = (ArrayList<Integer>) intent.getSerializableExtra("SelectedItemsList");
-
-        Set<Question> set = new HashSet<>();//to get all questions from selected quizzes
-        for(int i=0;i<quizzesSelected.size();i++){
-            set.addAll(dbHelper.getQuizzes().get(quizzesSelected.get(i)).getQuestions());
-        }
-
-        allQuestions = new ArrayList<>(set);
-        user = new User("user");
-        quantityOfQuestions = intent.getIntExtra("numberOfQuestions",-1);
-        if(quantityOfQuestions == -1) finish();
-
-    }
     @Override
     public void setView(){
         questionContent = (TextView)findViewById(R.id.game_question_content);
@@ -144,6 +128,24 @@ public class GameActivity extends AppCompatActivity implements ActivityInterface
 
     }
 
+
+    @Override
+    public void getDataFromIntent(){
+        intent = getIntent();
+        //list of selected quizzes
+        ArrayList<Integer> quizzesSelected = (ArrayList<Integer>) intent.getSerializableExtra("SelectedItemsList");
+
+        Set<Question> set = new HashSet<>();//to get all questions from selected quizzes
+        for(int i=0;i<quizzesSelected.size();i++){
+            set.addAll(dbHelper.getQuizzes().get(quizzesSelected.get(i)).getQuestions());
+        }
+        allQuestions = new ArrayList<>(set);
+        user = new User("user");
+        quantityOfQuestions = intent.getIntExtra("numberOfQuestions",-1);
+        if(quantityOfQuestions == -1) finish();
+
+    }
+
     //when no answer is selected user can't press ok button
     private void OK_NEXTButtonEnabled(){
         if(TRUEselected == false && FALSEselected==false && OK_NEXTButton.getText().equals("OK")){
@@ -155,7 +157,8 @@ public class GameActivity extends AppCompatActivity implements ActivityInterface
 
     @Override
     public void startGame(){
-        game = new Game(drawQuestions());
+        game = new Game();
+        game.drawQuestions(allQuestions,quantityOfQuestions);
         showNextQuestion();
     }
 
@@ -184,14 +187,6 @@ public class GameActivity extends AppCompatActivity implements ActivityInterface
             game.incrementWrongAnswers(); //increment wrong answers
         }
         game.incrementAnsweredQuestions(); // increment answered questions
-    }
-
-    @Override
-    public List<Question> drawQuestions(){
-        List<Question> questions;
-        //drawing random questions from list of all questions
-        questions = ListRandomizer.drawRandomList(allQuestions,quantityOfQuestions);
-        return questions;
     }
 
     @Override
