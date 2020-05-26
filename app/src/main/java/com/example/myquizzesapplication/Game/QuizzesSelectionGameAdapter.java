@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 public class QuizzesSelectionGameAdapter extends RecyclerView.Adapter<com.example.myquizzesapplication.Game.QuizzesSelectionGameAdapter.MyViewHolder> implements SelectionListInterface {
-
+    //wybór quizów do gry z listy quizów
     private Context context;
     List<Quiz> quizzes;
     Map<Integer,Boolean> selectedItemsList = new HashMap<Integer,Boolean>();//which items are selected

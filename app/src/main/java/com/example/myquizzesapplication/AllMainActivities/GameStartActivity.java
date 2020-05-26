@@ -18,6 +18,7 @@ import com.example.myquizzesapplication.R;
 import java.util.ArrayList;
 
 public class GameStartActivity extends AppCompatActivity implements ActivityInterfaceWithButtons {
+    //odpowiada za wybranie ilości pytań do nowej gry
 
     Button STARTButton, CANCELButton;
     EditText enterNumberOfQuestions;

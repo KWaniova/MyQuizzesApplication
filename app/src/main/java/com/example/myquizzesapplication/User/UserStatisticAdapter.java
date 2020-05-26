@@ -80,7 +80,7 @@ public class UserStatisticAdapter {
 
     public static UserStatistic getUserStatisticPreferences(Context context,String preferencesName){
 
-        UserStatistic userStatistic = new UserStatistic(preferencesName);
+        UserStatistic userStatistic = new UserStatistic();
         SharedPreferences preferences = context.getSharedPreferences(preferencesName,Context.MODE_PRIVATE);
 
         userStatistic.setQuantityOfQuestionsInDB(context);

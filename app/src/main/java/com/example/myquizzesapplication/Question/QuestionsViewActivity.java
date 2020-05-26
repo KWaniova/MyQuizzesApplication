@@ -24,6 +24,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 public class QuestionsViewActivity extends AppCompatActivity {
+    //lista pytań quizu
 
     Intent intent;
     List<Question> questions;
@@ -86,7 +87,6 @@ public class QuestionsViewActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        System.out.println("ON RESUME QUESTIONVIEWACTIVITY");
         adapter.notifyDataSetChanged();
     }
 }

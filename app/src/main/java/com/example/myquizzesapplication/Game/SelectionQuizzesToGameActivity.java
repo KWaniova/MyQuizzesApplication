@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 public class SelectionQuizzesToGameActivity extends AppCompatActivity implements ActivityInterfaceWithButtons {
 
+    //wybór quizów do gry
+
     QuizzesSelectionGameAdapter adapter;
     RecyclerView recyclerView;
     TextView selectedTextView;

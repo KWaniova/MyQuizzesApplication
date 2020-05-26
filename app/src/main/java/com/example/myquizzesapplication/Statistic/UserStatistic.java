@@ -6,12 +6,9 @@ import android.content.SharedPreferences;
 import com.example.myquizzesapplication.DBHelper.DBHelper;
 
 public class UserStatistic extends Statistic {
-    String preferencesName;
     private int quantityOfQuestionsInDB;
 
-    public UserStatistic(String preferencesName) {
-        this.preferencesName = preferencesName;
-    }
+    public UserStatistic() {}
 
     public void setQuantityOfQuestionsInDB(Context context) {
         this.quantityOfQuestionsInDB = DBHelper.getInstance(context).getNumberOfQuestions();

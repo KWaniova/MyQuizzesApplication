@@ -30,6 +30,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
+    //Strona główna z listą quizów
 
     private Toolbar toolbar;
     private User user;

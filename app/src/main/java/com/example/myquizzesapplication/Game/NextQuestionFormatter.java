@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class NextQuestionFormatter {
+    //dla przebiegu gry - ustawia wygląd dla nowego pytania
 
     public static void nextTrueFalseQuestion(View trueView, View falseView, TextView questionContentView, TextView resultView,String questionContent){
         questionContentView.setText(questionContent);

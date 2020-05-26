@@ -14,6 +14,7 @@ import com.example.myquizzesapplication.User.EnterUserNameActivity;
 import com.example.myquizzesapplication.User.User;
 
 public class UserSettingsActivity extends AppCompatActivity implements ActivityInterfaceWithButtons{
+    //wyświetla menu możliwości dla użytkownika
 
     User user;
     TextView userName;

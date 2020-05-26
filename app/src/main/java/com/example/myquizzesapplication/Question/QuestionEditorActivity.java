@@ -19,6 +19,8 @@ import com.example.myquizzesapplication.R;
 
 public class QuestionEditorActivity extends AppCompatActivity implements ActivityInterfaceWithButtons {
 
+    //edytowanie pytania
+
     RadioButton true_RB, false_RB;
     Button OKButton;
     EditText questionContent;

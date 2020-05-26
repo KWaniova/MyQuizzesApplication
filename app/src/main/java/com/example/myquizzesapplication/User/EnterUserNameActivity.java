@@ -13,6 +13,7 @@ import com.example.myquizzesapplication.Helpers.KeyboardSettingsClass;
 import com.example.myquizzesapplication.R;
 
 public class EnterUserNameActivity extends AppCompatActivity {
+    //wpisanie nazwy użytkownika
 
     EditText userName;
     String enteredUserName;

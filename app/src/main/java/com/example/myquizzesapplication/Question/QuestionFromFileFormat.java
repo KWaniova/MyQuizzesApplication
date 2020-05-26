@@ -1,6 +1,7 @@
 package com.example.myquizzesapplication.Question;
 
 public class QuestionFromFileFormat {
+    //format pytania pobranego z pliku txt
     private String trueAnswerFormat;
     private String falseAnswerFormat;
     private String separatorFormat;

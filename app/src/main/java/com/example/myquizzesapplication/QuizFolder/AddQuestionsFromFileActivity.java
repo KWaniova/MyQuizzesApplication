@@ -23,6 +23,7 @@ import com.example.myquizzesapplication.R;
 import java.util.ArrayList;
 
 public class AddQuestionsFromFileActivity extends AppCompatActivity implements ActivityInterfaceWithButtons {
+    //dodawanie pytań z pliku txt
 
     EditText TRUEAnswerFormat, FALSEAnswerFormat;
     RadioButton TabRadioButton, NewLineRadioButton;

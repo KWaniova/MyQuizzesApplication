@@ -15,7 +15,7 @@ import java.util.Random;
 import java.util.Set;
 
 public class ListRandomizer {
-
+    //używam do losowania listy pytań w grze ze wszystkich dostępnych pytań
     public static <T> List<T> drawRandomList(List<T> list, int numberOfElements){//returns random list
         if(numberOfElements > list.size())
             return null;

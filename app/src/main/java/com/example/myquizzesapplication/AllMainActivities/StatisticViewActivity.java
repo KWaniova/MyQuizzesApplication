@@ -12,6 +12,7 @@ import com.example.myquizzesapplication.Statistic.UserStatistic;
 import com.example.myquizzesapplication.User.User;
 
 public class StatisticViewActivity extends AppCompatActivity implements ActivityIntefaceFunctions {
+    //wyświetlenie statystyk użytkownika
 
     User user;
     TextView quantityOfAllQuestionsInDB,

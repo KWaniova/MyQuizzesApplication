@@ -17,6 +17,7 @@ import com.example.myquizzesapplication.Helpers.KeyboardSettingsClass;
 import com.example.myquizzesapplication.R;
 
 public class TypeQuizNameActivity extends AppCompatActivity implements ActivityInterfaceWithButtons {
+    //umożliwia wpisanie nazwy quizu
 
     EditText enterQuizName;
     Button addButton;

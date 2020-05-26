@@ -28,6 +28,7 @@ import com.example.myquizzesapplication.R;
 import java.util.ArrayList;
 
 public class QuizMenuActivity extends AppCompatActivity implements ActivityInterfaceWithButtons {
+    //Menu quizu
 
     Intent intent;
     private Quiz quiz;
